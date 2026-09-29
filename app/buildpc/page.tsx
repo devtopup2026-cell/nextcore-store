@@ -120,7 +120,26 @@ const handleAddBuildToCart = () => {
   }
 });
 
-  alert(`เพิ่มอุปกรณ์ ${selectedCount} ชิ้นลงตะกร้าแล้ว`);
+
+const totalItems = selectedProducts.reduce((count, product) => {
+  const productCategory = product.category?.toUpperCase();
+
+  const quantity =
+    productCategory === "RAM"
+      ? ramQuantity
+      : productCategory === "SSD"
+        ? ssdQuantity
+        : productCategory === "HDD"
+          ? hddQuantity
+          : 1;
+
+  return count + quantity;
+}, 0);
+
+
+  alert(
+  `เพิ่มอุปกรณ์ ${selectedCount} รายการ รวม ${totalItems} ชิ้นลงตะกร้าแล้ว`
+);
 };
 
 
