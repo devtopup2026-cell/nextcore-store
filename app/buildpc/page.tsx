@@ -41,13 +41,7 @@ const selectedProducts = Object.values(selectedParts).filter(
   (product) => Boolean(product)
 );
 
-const selectedCount = selectedProducts.reduce((count, product) => {
-  if (product.category?.toUpperCase() === "RAM") {
-    return count + ramQuantity;
-  }
-
-  return count + 1;
-}, 0);
+const selectedCount = selectedProducts.length;
 
 const totalPrice = selectedProducts.reduce((sum, product) => {
   const price = Number(product.price);
