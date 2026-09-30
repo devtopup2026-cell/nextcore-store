@@ -15,19 +15,19 @@ export default function ProductToolbar({
   setSort,
 }: Props) {
   return (
-    <div className="flex flex-col lg:flex-row justify-between gap-5 mb-8">
+    <div className="mb-8 flex w-full min-w-0 flex-col gap-4 lg:flex-row lg:justify-between lg:gap-5">
 
       <input
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search Products..."
-        className="bg-zinc-900 border border-zinc-700 rounded-xl px-5 py-3 w-full lg:w-96 focus:border-red-500 outline-none"
+        className="w-full min-w-0 rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none focus:border-red-500 sm:px-5 lg:w-96"
       />
 
     <select
   value={sort}
   onChange={(e) => setSort(e.target.value)}
-  className="bg-zinc-900 border border-zinc-700 rounded-xl px-5 py-3"
+  className="w-full min-w-0 rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 outline-none focus:border-red-500 sm:px-5 lg:w-auto"
 >
   <option value="Newest">Newest</option>
 

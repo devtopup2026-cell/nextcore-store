@@ -19,48 +19,52 @@ export default function ProductFilter({
   category,
   setCategory,
 }: Props) {
-  return (
-    <aside className="bg-zinc-900 rounded-2xl p-6">
+ return (
+  <aside className="min-w-0 rounded-2xl bg-zinc-900 p-4 sm:p-6">
 
-      <h2 className="text-2xl font-bold mb-6">
+    <h2 className="mb-4 text-xl font-bold sm:text-2xl lg:mb-6">
+      Categories
+    </h2>
 
-        Categories
-
-      </h2>
-
-      <div className="space-y-3">
-
-        {categories.map((item) => (
-
-          <button
-            key={item}
-            onClick={() => setCategory(item)}
-            className={`
-
-            w-full
-            text-left
+    <div
+      className="
+        flex
+        gap-2
+        overflow-x-auto
+        pb-2
+        lg:block
+        lg:space-y-3
+        lg:overflow-visible
+        lg:pb-0
+      "
+    >
+      {categories.map((item) => (
+        <button
+          key={item}
+          type="button"
+          onClick={() => setCategory(item)}
+          className={`
+            shrink-0
+            whitespace-nowrap
+            rounded-xl
             px-4
             py-3
-            rounded-xl
+            text-left
             transition
+            lg:w-full
 
             ${
               category === item
                 ? "bg-red-600 text-white"
-                : "hover:bg-zinc-800"
+                : "bg-zinc-800/60 hover:bg-zinc-800 lg:bg-transparent"
             }
+          `}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
 
-            `}
-          >
-
-            {item}
-
-          </button>
-
-        ))}
-
-      </div>
-
-    </aside>
-  );
+  </aside>
+);
 }

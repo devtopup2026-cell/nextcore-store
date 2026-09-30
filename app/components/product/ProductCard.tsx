@@ -35,13 +35,13 @@ export default function ProductCard({ product }: Props) {
 
         </div>
 
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
 
           <p className="text-sm text-zinc-400">
             {product.brand}
           </p>
 
-          <h3 className="mt-1 line-clamp-2 text-xl font-bold">
+          <h3 className="mt-1 line-clamp-2 text-lg font-bold sm:text-xl">
             {product.name}
           </h3>
 
@@ -61,7 +61,7 @@ export default function ProductCard({ product }: Props) {
 
           </div>
 
-          <p className="mt-5 text-3xl font-black text-red-500">
+          <p className="mt-4 text-2xl font-black text-red-500 sm:mt-5 sm:text-3xl">
             ฿{product.price.toLocaleString()}
           </p>
 
@@ -70,17 +70,17 @@ export default function ProductCard({ product }: Props) {
           </p>
 
         <button
-          onClick={(e) => {
-           e.preventDefault();
-           e.stopPropagation();
+  type="button"
+  onClick={(e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-            addItem(product);
-
-            console.log(useCart.getState().items);
-           }}
-            >
-             Add To Cart
-        </button>
+    addItem(product);
+  }}
+  className="mt-4 w-full rounded-xl bg-red-600 px-4 py-3 font-bold text-white transition hover:bg-red-500"
+>
+  Add To Cart
+</button>
 
         </div>
 

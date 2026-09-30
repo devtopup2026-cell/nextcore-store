@@ -176,9 +176,9 @@ const handlePageChange = (newPage: number) => {
 
       <main className="bg-black text-white min-h-screen">
 
-        <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
 
-          <h1 className="text-5xl font-bold mb-10">
+          <h1 className="mb-6 text-3xl font-bold sm:mb-10 sm:text-5xl">
 
             Products
 
@@ -191,14 +191,14 @@ const handlePageChange = (newPage: number) => {
             setSort={handleSortChange}
           />
 
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8">
 
             <ProductFilter
               category={category}
               setCategory={handleCategoryChange}
             />
 
-            <div className="lg:col-span-3">
+            <div className="min-w-0 lg:col-span-3">
   {filteredProducts.length > 0 ? (
   <>
     <ProductGrid products={paginatedProducts} />
@@ -287,7 +287,7 @@ export default function ProductsPage() {
     <Suspense
       fallback={
         <main className="min-h-screen bg-black text-white">
-          <div className="mx-auto max-w-7xl px-6 py-16">
+          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
             <p className="text-zinc-400">Loading products...</p>
           </div>
         </main>

@@ -7,9 +7,9 @@ export default function Hero() {
 
       <div className="absolute inset-0 bg-gradient-to-r from-red-950/20 via-transparent to-red-900/10" />
 
-      <div className="mx-auto max-w-7xl px-6 py-16">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
 
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
 
           {/* LEFT */}
 
@@ -19,7 +19,7 @@ export default function Hero() {
               🔥 Gaming • Office • Enterprise
             </span>
 
-            <h1 className="text-6xl font-black leading-tight">
+            <h1 className="text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
 
               <span className="text-white">
                 BUILD YOUR
@@ -33,7 +33,7 @@ export default function Hero() {
 
             </h1>
 
-            <p className="mt-8 text-zinc-400 leading-8 text-lg max-w-xl">
+            <p className="mt-6 max-w-xl text-base leading-7 text-zinc-400 sm:mt-8 sm:text-lg sm:leading-8">
 
               NEXTCORE จำหน่ายคอมพิวเตอร์ อุปกรณ์ Gaming
               และประกอบคอมตามงบประมาณ
@@ -41,7 +41,7 @@ export default function Hero() {
 
             </p>
 
-<div className="mt-10 flex flex-wrap gap-5">
+<div className="mt-8 flex flex-wrap gap-3 sm:mt-10 sm:gap-5">
 
   <Link
     href="/products"
@@ -59,15 +59,15 @@ export default function Hero() {
 
 </div>
 
-            <div className="mt-12 flex gap-14">
+            <div className="mt-10 grid grid-cols-3 gap-3 sm:mt-12 sm:gap-8 lg:gap-14">
 
               <div>
 
-                <h3 className="text-5xl font-black text-red-500">
+                <h3 className="text-2xl font-black text-red-500 sm:text-4xl lg:text-5xl">
                   5K+
                 </h3>
 
-                <p className="mt-2 text-zinc-400 text-lg">
+                <p className="mt-2 text-sm text-zinc-400 sm:text-base lg:text-lg">
                   Happy Customers
                 </p>
 
@@ -75,11 +75,11 @@ export default function Hero() {
 
               <div>
 
-                <h3 className="text-5xl font-black text-red-500">
+                <h3 className="text-2xl font-black text-red-500 sm:text-4xl lg:text-5xl">
                   1200+
                 </h3>
 
-                <p className="mt-2 text-zinc-400 text-lg">
+                <p className="mt-2 text-sm text-zinc-400 sm:text-base lg:text-lg">
                   PC Builds
                 </p>
 
@@ -87,11 +87,11 @@ export default function Hero() {
 
               <div>
 
-                <h3 className="text-5xl font-black text-red-500">
+                <h3 className="text-2xl font-black text-red-500 sm:text-4xl lg:text-5xl">
                   100%
                 </h3>
 
-                <p className="mt-2 text-zinc-400 text-lg">
+                <p className="mt-2 text-sm text-zinc-400 sm:text-base lg:text-lg">
                   Warranty
                 </p>
 
@@ -103,7 +103,7 @@ export default function Hero() {
 
           {/* RIGHT */}
 
-          <div className="relative">
+          <div className="relative mx-auto w-full max-w-2xl">
 
             <div className="absolute -inset-6 rounded-full bg-red-600/20 blur-3xl" />
 
