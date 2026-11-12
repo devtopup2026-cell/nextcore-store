@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getAdminSession } from "@/lib/admin-auth";
@@ -100,7 +101,7 @@ if (existingOrder) {
 // ตรวจ Quantity + ใช้ราคาจริงจาก Database
 // ======================================================
 
-const validatedItems = [];
+const validatedItems: { productId: number; quantity: number; price: number }[] = [];
 
 for (const item of items) {
   const product = products.find(
@@ -111,6 +112,13 @@ for (const item of items) {
     return NextResponse.json(
       { error: "Product not found" },
       { status: 400 }
+    );
+  }
+
+  if (!product.isActive) {
+    return NextResponse.json(
+      { error: `${product.name} ปิดขายชั่วคราว กรุณานำออกจากตะกร้า` },
+      { status: 409 }
     );
   }
 
@@ -217,50 +225,68 @@ if (member) {
     // สร้าง Order + OrderItem
     // ======================================================
 
-    const order = await prisma.order.create({
-  data: {
-    id,
+    const order = await prisma.$transaction(async (tx) => {
+      // Serialize checkout with changes to the product's sale status.
+      const activeProducts = await tx.$queryRaw<{ id: number }[]>`
+        SELECT "id" FROM "Product"
+        WHERE "id" IN (${Prisma.join(productIds)}) AND "isActive" = true
+        ORDER BY "id" FOR SHARE
+      `;
 
-    customerId: savedCustomer.id,
+      if (activeProducts.length !== productIds.length) return null;
 
-    // ======================================================
-    // Shipping Snapshot
-    // เก็บข้อมูลผู้รับ ณ เวลาที่สร้าง Order
-    // ======================================================
+      return tx.order.create({
+        data: {
+          id,
 
-    recipientName: savedCustomer.fullName,
-    recipientEmail: savedCustomer.email,
-    recipientPhone: savedCustomer.phone,
-    shippingAddress: savedCustomer.address,
-    shippingPostalCode: savedCustomer.postalCode,
+          customerId: savedCustomer.id,
 
-    total: calculatedTotal,
+          // ======================================================
+          // Shipping Snapshot
+          // เก็บข้อมูลผู้รับ ณ เวลาที่สร้าง Order
+          // ======================================================
 
-    paymentMethod,
+          recipientName: savedCustomer.fullName,
+          recipientEmail: savedCustomer.email,
+          recipientPhone: savedCustomer.phone,
+          shippingAddress: savedCustomer.address,
+          shippingPostalCode: savedCustomer.postalCode,
 
-    paymentSlip: paymentSlip || null,
+          total: calculatedTotal,
 
-    status: "Pending Payment",
+          paymentMethod,
 
-    items: {
-      create: validatedItems.map((item) => ({
-        productId: item.productId,
-        quantity: item.quantity,
-        price: item.price,
-      })),
-    },
-  },
+          paymentSlip: paymentSlip || null,
 
-  include: {
-    customer: true,
+          status: "Pending Payment",
 
-    items: {
-      include: {
-        product: true,
-      },
-    },
-  },
-});
+          items: {
+            create: validatedItems.map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              price: item.price,
+            })),
+          },
+        },
+
+        include: {
+          customer: true,
+
+          items: {
+            include: {
+              product: true,
+            },
+          },
+        },
+      });
+    });
+
+    if (!order) {
+      return NextResponse.json(
+        { error: "สินค้าในตะกร้าปิดขายแล้ว กรุณาตรวจสอบตะกร้าอีกครั้ง" },
+        { status: 409 }
+      );
+    }
 
 
     return NextResponse.json({

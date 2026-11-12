@@ -12,6 +12,7 @@ type Product = {
   price: number;
   image: string;
   stock: number;
+  isActive: boolean;
 };
 
 export default function AdminProductsPage() {
@@ -19,6 +20,7 @@ export default function AdminProductsPage() {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -50,55 +52,31 @@ export default function AdminProductsPage() {
 
   
   
-  const handleDelete = async (
-  productId: number,
-  productName: string
-) => {
-  const confirmed = window.confirm(
-    `ต้องการลบสินค้า "${productName}" ใช่หรือไม่?`
-  );
+  const toggleProduct = async (product: Product) => {
+    setUpdatingId(product.id);
+    try {
+      const response = await fetch(`/api/admin/products/${product.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isActive: !product.isActive }),
+      });
+      const data = await response.json();
 
-  if (!confirmed) return;
-
-  try {
-    const res = await fetch(
-      `/api/admin/products/${productId}`,
-      {
-        method: "DELETE",
-      }
-    );
-
-    const data = await res.json();
-
-      if (!res.ok) {
-          alert(
-          data.error || "ไม่สามารถลบสินค้าได้"
-        );
-        return;
+      if (!response.ok) {
+        throw new Error(data.error || "เปลี่ยนสถานะสินค้าไม่สำเร็จ");
       }
 
-    setProducts((current) =>
-      current.filter(
-        (product) => product.id !== productId
-      )
-    );
-
-    alert("ลบสินค้าเรียบร้อย");
-  } catch (error) {
-      console.warn(
-        "DELETE PRODUCT ERROR:",
-        error
+      setProducts((current) =>
+        current.map((item) =>
+          item.id === product.id ? { ...item, isActive: data.isActive } : item
+        )
       );
-
-    alert(
-      error instanceof Error
-        ? error.message
-        : "ลบสินค้าไม่สำเร็จ"
-    );
-  }
-};
-
-
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "เปลี่ยนสถานะสินค้าไม่สำเร็จ");
+    } finally {
+      setUpdatingId(null);
+    }
+  };
 
   return (
 <main className="min-h-screen bg-black text-white">
@@ -193,6 +171,9 @@ export default function AdminProductsPage() {
                 <p className="mt-1 text-sm text-zinc-400">
                   ID: {product.id}
                 </p>
+                <p className={product.isActive ? "text-green-400" : "text-amber-400"}>
+                  {product.isActive ? "เปิดขาย" : "ปิดขาย"}
+                </p>
               </div>
 
             </div>
@@ -246,23 +227,14 @@ export default function AdminProductsPage() {
                       </button>
 
                       <button
-                        onClick={() =>
-                          handleDelete(
-                            product.id,
-                            product.name
-                          )
-                        }
-                        className="
-                          rounded-lg
-                          bg-red-600
-                          px-4
-                         py-2
-                          font-bold
-                          transition
-                          hover:bg-red-500
-                        "
+                        type="button"
+                        onClick={() => toggleProduct(product)}
+                        disabled={updatingId !== null}
+                        className="rounded-lg bg-zinc-700 px-4 py-2 font-bold hover:bg-zinc-600 disabled:opacity-50"
                       >
-                        Delete
+                        {updatingId === product.id
+                          ? "กำลังบันทึก…"
+                          : product.isActive ? "ปิดขาย" : "เปิดขาย"}
                       </button>
 
                     </div>

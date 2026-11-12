@@ -21,6 +21,7 @@ export default async function ProductPage({
     await prisma.product.findUnique({
       where: {
         slug,
+        isActive: true,
       },
     });
 

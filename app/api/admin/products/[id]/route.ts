@@ -145,6 +145,29 @@ export async function PATCH(
 
     const body = await req.json();
 
+    if (body && Object.prototype.hasOwnProperty.call(body, "isActive")) {
+      if (typeof body.isActive !== "boolean") {
+        return NextResponse.json(
+          { success: false, error: "Invalid product status" },
+          { status: 400 }
+        );
+      }
+
+      const result = await prisma.product.updateMany({
+        where: { id: productId },
+        data: { isActive: body.isActive },
+      });
+
+      if (result.count === 0) {
+        return NextResponse.json(
+          { success: false, error: "Product not found" },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json({ success: true, isActive: body.isActive });
+    }
+
 const {
   name,
   slug,
