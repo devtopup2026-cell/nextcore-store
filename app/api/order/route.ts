@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { deferredSlipOrder } from "@/lib/payment-slip";
 import { prisma } from "@/lib/prisma";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getCustomerSession } from "@/lib/customer-session";
@@ -26,6 +27,13 @@ const {
   paymentMethod,
   paymentSlip,
 } = body;
+
+    if (!paymentSlip && (!member || !deferredSlipOrder.paymentMethod.in.includes(paymentMethod))) {
+      return NextResponse.json(
+        { error: "Attach a slip or sign in to submit it later." },
+        { status: 400 },
+      );
+    }
 
     // ตรวจข้อมูลเบื้องต้น
 

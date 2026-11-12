@@ -1,7 +1,12 @@
 import { Text } from "@/app/i18n/language";
 import Link from "next/link";
 
-export default function OrderSuccess() {
+export default async function OrderSuccess({
+  searchParams,
+}: {
+  searchParams: Promise<{ attachSlip?: string }>;
+}) {
+  const attachLater = (await searchParams).attachSlip === "later";
 
   return (
 
@@ -11,24 +16,24 @@ export default function OrderSuccess() {
 
         <h1 className="text-6xl font-black text-green-500">
 
-          <Text>{"SUCCESS"}</Text>
+          <Text>{attachLater ? "Order placed" : "SUCCESS"}</Text>
 
         </h1>
 
         <p className="mt-6 text-xl">
 
-          <Text>{"ระบบได้รับข้อมูลการชำระเงินของคุณแล้ว"}</Text>
+          <Text>{attachLater ? "Your order is awaiting a payment slip." : "ระบบได้รับข้อมูลการชำระเงินของคุณแล้ว"}</Text>
 
         </p>
 
         <p className="mt-3 text-zinc-400">
 
-          <Text>{"กรุณารอการตรวจสอบจากทีมงาน NEXTCORE"}</Text>
+          <Text>{attachLater ? "You can upload your slip from Order History." : "กรุณารอการตรวจสอบจากทีมงาน NEXTCORE"}</Text>
 
         </p>
 
         <Link
-          href="/"
+          href={attachLater ? "/account" : "/"}
           className="
           mt-8
           inline-block
@@ -39,7 +44,7 @@ export default function OrderSuccess() {
           font-bold
           "
         >
-          <Text>{"กลับหน้าแรก"}</Text>
+          <Text>{attachLater ? "Order History" : "กลับหน้าแรก"}</Text>
         </Link>
 
       </div>

@@ -17,6 +17,8 @@ export default function PaymentPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [isMember, setIsMember] = useState(false);
   const { clearCustomer } = useCustomerStore();
   const {
     items,
@@ -37,6 +39,9 @@ export default function PaymentPage() {
 
    useEffect(()=>{
       setMounted(true);
+      fetch("/api/customer/me", { cache: "no-store" })
+        .then((response) => setIsMember(response.ok))
+        .catch(() => setIsMember(false));
    },[]);
 
 
@@ -45,13 +50,13 @@ export default function PaymentPage() {
    }
 
   
-const handleConfirmPayment = async () => {
-  if (!preview) {
-    alert("กรุณาอัปโหลดสลิป");
+const handleConfirmPayment = async (attachLater = false) => {
+  if (!preview && !(attachLater && isMember)) {
+    alert(translate("Attach a slip or sign in to submit it later."));
     return;
   }
 
-  if (submitting) {
+  if (submitting || uploading) {
     return;
   }
 
@@ -97,7 +102,7 @@ const handleConfirmPayment = async () => {
       const data = await res.json().catch(() => null);
 
       alert(
-        data?.error ||
+        (data?.error && translate(data.error)) ||
           "บันทึกออเดอร์ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง"
       );
 
@@ -107,7 +112,7 @@ const handleConfirmPayment = async () => {
     clear();
     clearCustomer();
 
-    router.push("/order-success");
+    router.push(preview ? "/order-success" : "/order-success?attachSlip=later");
   } catch (error) {
     console.error("CONFIRM PAYMENT ERROR:", error);
 
@@ -244,10 +249,13 @@ const handleConfirmPayment = async () => {
 <input
   type="file"
   accept="image/*"
+  disabled={uploading || submitting}
   onChange={async (e) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
+    setUploading(true);
+    setPreview(null);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -269,6 +277,8 @@ const handleConfirmPayment = async () => {
     } catch (error) {
       console.error(error);
       alert("Upload failed");
+    } finally {
+      setUploading(false);
     }
   }}
   className="
@@ -308,8 +318,8 @@ const handleConfirmPayment = async () => {
 }
 
 <button
-  disabled={submitting}
-  onClick={handleConfirmPayment}
+  disabled={submitting || uploading || !preview}
+  onClick={() => handleConfirmPayment()}
   className="
     disabled:cursor-not-allowed
     disabled:opacity-50
@@ -326,8 +336,22 @@ const handleConfirmPayment = async () => {
 >
   {submitting
   ? <Text>{"Processing..."}</Text>
-  : <Text>{"Confirm Payment"}</Text>}
+  : <Text>{uploading ? "Uploading slip..." : "Confirm Payment"}</Text>}
 </button>
+
+{isMember && !preview && (
+  <div className="mt-4 space-y-2">
+    <button
+      type="button"
+      disabled={submitting || uploading}
+      onClick={() => handleConfirmPayment(true)}
+      className="w-full rounded-xl border border-zinc-700 px-4 py-3 font-bold hover:border-red-500 disabled:opacity-50"
+    >
+      <Text>{"Place order and attach slip later"}</Text>
+    </button>
+    <p className="text-sm text-zinc-400"><Text>{"You can upload your slip from Order History."}</Text></p>
+  </div>
+)}
 
             </div>
 

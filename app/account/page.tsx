@@ -1,5 +1,7 @@
 import { Text, LanguageToggle } from "@/app/i18n/language";
 import Link from "next/link";
+import OrderSlipForm from "@/app/components/customer/OrderSlipForm";
+import { canAttachPaymentSlip } from "@/lib/payment-slip";
 import { redirect } from "next/navigation";
 
 import { getCustomerSession } from "@/lib/customer-session";
@@ -229,6 +231,10 @@ export default async function AccountPage() {
             </p>
           </div>
         </div>
+        {canAttachPaymentSlip(order) && <OrderSlipForm orderId={order.id} />}
+        {order.paymentSlip && (
+          <p className="mt-4 text-sm text-green-400"><Text>{"Payment slip attached"}</Text></p>
+        )}
       </div>
     ))}
   </div>
