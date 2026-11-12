@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 
+import { normalizeProductCategory } from "@/lib/product-categories";
 import type { Product } from "../types/product";
 
 export default function useProducts() {
@@ -81,7 +82,7 @@ if (keyword) {
 
     // Category
     if (category !== "All") {
-      result = result.filter(product => product.category === category);
+      result = result.filter(product => normalizeProductCategory(product.category) === category);
     }
 
     // Sort

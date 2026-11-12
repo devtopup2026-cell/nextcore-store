@@ -10,6 +10,7 @@ import ProductToolbar from "../components/product/ProductToolbar";
 import ProductFilter from "../components/product/ProductFilter";
 import ProductGrid from "../components/product/ProductGrid";
 
+import { normalizeProductCategory } from "@/lib/product-categories";
 import useProducts from "../../hooks/useProducts";
 
 function ProductsContent() {
@@ -42,7 +43,7 @@ useEffect(() => {
   const sortFromUrl = searchParams.get("sort") || "Newest";
 
   setSearch(searchFromUrl);
-  setCategory(categoryFromUrl);
+  setCategory(normalizeProductCategory(categoryFromUrl));
   setSort(sortFromUrl);
 }, [searchParams, setSearch, setCategory, setSort]);
 

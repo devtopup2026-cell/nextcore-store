@@ -3,6 +3,7 @@ import { Text, LanguageToggle } from "@/app/i18n/language";
 
 
 import { useEffect, useState } from "react";
+import { buildPartCategories, normalizeProductCategory, productCategoryLabel } from "@/lib/product-categories";
 import { useCart } from "@/store/cart.store";
 
 export default function BuildPCPage() {
@@ -166,28 +167,18 @@ const totalItems = selectedProducts.reduce((count, product) => {
 <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
   {/* COMPONENTS */}
   <div className="space-y-4">
-    {[
-      ["CPU", "Processor"],
-      ["MAINBOARD", "Motherboard"],
-      ["RAM", "Memory"],
-      ["VGA", "Graphics Card"],
-      ["SSD", "SSD Storage"],
-      ["HDD", "HDD Storage"],
-      ["PSU", "Power Supply"],
-      ["CASE", "Computer Case"],
-      ["COOLER", "CPU Cooler"],
-    ].map(([category, label]) => (
+    {buildPartCategories.map(([category, label]) => (
       <div
         key={category}
         className="flex items-center justify-between gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5"
       >
         <div>
           <p className="text-sm font-semibold text-red-500">
-            <Text>{category}</Text>
+            {category}
           </p>
 
           <h2 className="mt-1 text-lg font-bold">
-            {label}
+            <Text>{label}</Text>
           </h2>
 
           {selectedParts[category] ? (
@@ -421,7 +412,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <p className="text-sm font-semibold uppercase text-red-500">
-            <Text>{selectedCategory ?? ""}</Text>
+            <Text>{productCategoryLabel(selectedCategory)}</Text>
           </p>
 
           <h2 className="mt-1 text-2xl font-bold">
@@ -442,8 +433,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
         {products
           .filter(
             (product) =>
-              product.category?.toUpperCase() ===
-              selectedCategory.toUpperCase()
+              normalizeProductCategory(product.category ?? "") === selectedCategory
           )
           .map((product) => (
             <div

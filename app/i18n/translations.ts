@@ -268,4 +268,13 @@ export const translations: Readonly<Record<string, Partial<Record<"en" | "th", s
   "Account number": { th: "เลขบัญชี" },
   "Account name": { th: "ชื่อบัญชี" },
   "QR payments are temporarily unavailable. Please transfer to the account below.": { th: "ระบบสแกนจ่าย QR อยู่ระหว่างปรับปรุง กรุณาโอนเข้าบัญชีด้านล่าง" },
+  "Motherboard": { th: "เมนบอร์ด" },
+  "Computer Case": { th: "เคสคอมพิวเตอร์" },
+  "CPU Cooler": { th: "ชุดระบายความร้อนซีพียู" },
+  "Processor": { th: "ซีพียู" },
+  "Memory": { th: "แรม" },
+  "Graphics Card": { th: "การ์ดจอ" },
+  "SSD Storage": { th: "ไดรฟ์ SSD" },
+  "HDD Storage": { th: "ฮาร์ดดิสก์" },
+  "Power Supply": { th: "พาวเวอร์ซัพพลาย" },
 };

@@ -1,4 +1,6 @@
 "use client";
+import { normalizeProductCategory } from "@/lib/product-categories";
+import ProductCategoryOptions from "@/app/components/admin/ProductCategoryOptions";
 import { Text, useLanguage } from "@/app/i18n/language";
 
 
@@ -114,7 +116,7 @@ setForm({
   slug: data.product.slug,
 
   brand: data.product.brand || "",
-  category: data.product.category || "",
+  category: normalizeProductCategory(data.product.category || ""),
 
   description:
     data.product.description || "",
@@ -472,23 +474,7 @@ return (
     className={inputClass}
     required
   >
-    <option value="">
-      <Text>{"Select Category"}</Text>
-    </option>
-
-    <option value="CPU">CPU</option>
-    <option value="VGA">VGA</option>
-    <option value="RAM">RAM</option>
-    <option value="SSD">SSD</option>
-    <option value="HDD">HDD</option>
-    <option value="PSU">PSU</option>
-    <option value="Monitor"><Text>{"Monitor"}</Text></option>
-    <option value="Keyboard"><Text>{"Keyboard"}</Text></option>
-    <option value="Mouse"><Text>{"Mouse"}</Text></option>
-    <option value="Gaming Gear">
-      <Text>{"Gaming Gear"}</Text>
-    </option>
-    <option value="PC Set"><Text>{"PC Set"}</Text></option>
+    <ProductCategoryOptions current={form.category} />
   </select>
 </label>
 

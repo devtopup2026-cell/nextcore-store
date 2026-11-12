@@ -2,15 +2,9 @@
 import { Text } from "@/app/i18n/language";
 
 
-const categories = [
-  "All",
-  "CPU",
-  "VGA",
-  "RAM",
-  "SSD",
-  "Monitor",
-  "Gaming Gear",
-];
+import { productCategories, productCategoryLabel } from "@/lib/product-categories";
+
+const categories = ["All", ...productCategories];
 
 type Props = {
   category: string;
@@ -62,7 +56,7 @@ export default function ProductFilter({
             }
           `}
         >
-          <Text>{item}</Text>
+          <Text>{productCategoryLabel(item)}</Text>
         </button>
       ))}
     </div>

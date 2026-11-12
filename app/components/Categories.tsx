@@ -1,14 +1,7 @@
+import Link from "next/link";
+import { productCategories, productCategoryLabel } from "@/lib/product-categories";
 import { Text } from "@/app/i18n/language";
-const categories = [
-  "PC Set",
-  "Build PC",
-  "Monitor",
-  "Gaming Gear",
-  "CPU",
-  "VGA",
-  "RAM",
-  "SSD",
-];
+const categories = ["Build PC", ...productCategories];
 
 export default function Categories() {
   return (
@@ -23,12 +16,13 @@ export default function Categories() {
         <div className="grid md:grid-cols-4 gap-6">
 
           {categories.map((item) => (
-            <div
+            <Link
               key={item}
+              href={item === "Build PC" ? "/buildpc" : `/products?category=${encodeURIComponent(item)}`}
               className="bg-zinc-900 p-8 rounded-2xl text-center hover:border-red-500 border border-transparent transition"
             >
-              <h3 className="font-bold"><Text>{item}</Text></h3>
-            </div>
+              <h3 className="font-bold"><Text>{productCategoryLabel(item)}</Text></h3>
+            </Link>
           ))}
 
         </div>
