@@ -2,6 +2,7 @@
 import { Text, useLanguage } from "@/app/i18n/language";
 
 import { useEffect, useState } from "react";
+import { paymentAccounts } from "@/lib/payment-accounts";
 import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/Footer";
 import { useCart } from "@/store/cart.store";
@@ -163,7 +164,7 @@ if (!mounted) return null;
                 onChange={() => setPaymentMethod("PromptPay")}
                 />
 
-                    PromptPay QR
+                    <Text>{paymentAccounts.PromptPay.label}</Text>
 
                   </label>
 
@@ -176,7 +177,7 @@ if (!mounted) return null;
                 onChange={() => setPaymentMethod("Bank Transfer")}
                 />
 
-                    <Text>{"Bank Transfer"}</Text>
+                    <Text>{paymentAccounts["Bank Transfer"].label}</Text>
 
                   </label>
 

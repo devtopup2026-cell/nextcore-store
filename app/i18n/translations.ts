@@ -260,4 +260,12 @@ export const translations: Readonly<Record<string, Partial<Record<"en" | "th", s
   "You can upload your slip from Order History.": { th: "คุณสามารถอัปโหลดสลิปได้จากหน้าประวัติการสั่งซื้อ" },
   "Order placed": { th: "สร้างคำสั่งซื้อแล้ว" },
   "Your order is awaiting a payment slip.": { th: "คำสั่งซื้อของคุณกำลังรอแนบสลิป" },
+  "SCB bank transfer": { th: "โอนเข้าบัญชีไทยพาณิชย์ (SCB)" },
+  "KBANK bank transfer": { th: "โอนเข้าบัญชีกสิกรไทย (KBANK)" },
+  "Siam Commercial Bank (SCB)": { th: "ไทยพาณิชย์ (SCB)" },
+  "Kasikornbank (KBANK)": { th: "กสิกรไทย (KBANK)" },
+  "Bank": { th: "ธนาคาร" },
+  "Account number": { th: "เลขบัญชี" },
+  "Account name": { th: "ชื่อบัญชี" },
+  "QR payments are temporarily unavailable. Please transfer to the account below.": { th: "ระบบสแกนจ่าย QR อยู่ระหว่างปรับปรุง กรุณาโอนเข้าบัญชีด้านล่าง" },
 };

@@ -6,6 +6,7 @@ import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/Footer";
 import { useCart } from "@/store/cart.store";
 import Image from "next/image";
+import { paymentAccounts } from "@/lib/payment-accounts";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCustomerStore } from "@/store/customer.store";
@@ -50,6 +51,10 @@ export default function PaymentPage() {
    }
 
   
+const account = paymentMethod === "Bank Transfer"
+  ? paymentAccounts["Bank Transfer"]
+  : paymentAccounts.PromptPay;
+
 const handleConfirmPayment = async (attachLater = false) => {
   if (!preview && !(attachLater && isMember)) {
     alert(translate("Attach a slip or sign in to submit it later."));
@@ -135,38 +140,37 @@ const handleConfirmPayment = async (attachLater = false) => {
           </h1>
 
 
-          <div className="rounded-3xl bg-zinc-900 p-10">
-
-            {/* QR */}
+          <div className="rounded-3xl bg-zinc-900 p-5 sm:p-10">
 
             <div className="flex flex-col items-center">
-
-              <h2 className="text-3xl font-bold mb-8">
-                PromptPay QR
+              <h2 className="mb-4 text-center text-2xl font-bold sm:text-3xl">
+                <Text>{account.label}</Text>
               </h2>
-
-
-              <div className="rounded-2xl bg-white p-5">
-
-<Image
-    src="/payment/promptpay-qr.png"
-    alt="PromptPay"
-    width={500}
-    height={900}
-/>
-
-              </div>
-
-
-              <p className="mt-6 text-zinc-400">
-                NEXTCORE STORE
+              <p className="mb-5 text-center text-sm text-zinc-300">
+                <Text>{"QR payments are temporarily unavailable. Please transfer to the account below."}</Text>
               </p>
-
-
-              <p className="mt-2 text-xl font-bold">
-                08X-XXX-XXXX
-              </p>
-
+              <Image
+                src={account.image}
+                alt=""
+                width={1200}
+                height={800}
+                sizes="(max-width: 640px) 100vw, 672px"
+                className="aspect-[2/1] w-full max-w-2xl rounded-2xl object-cover"
+              />
+              <dl className="mt-5 w-full max-w-2xl space-y-3 rounded-xl bg-black/35 p-4 sm:p-6">
+                <div>
+                  <dt className="text-sm text-zinc-400"><Text>{"Bank"}</Text></dt>
+                  <dd className="font-semibold"><Text>{account.bank}</Text></dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-zinc-400"><Text>{"Account number"}</Text></dt>
+                  <dd className="select-all font-mono text-xl font-bold tabular-nums">{account.number}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-zinc-400"><Text>{"Account name"}</Text></dt>
+                  <dd className="font-semibold" lang="th">{account.holder}</dd>
+                </div>
+              </dl>
 
               <div className="mt-8 rounded-xl bg-red-600 px-8 py-4">
 
@@ -223,7 +227,7 @@ const handleConfirmPayment = async (attachLater = false) => {
       <span className="font-bold text-white">
         <Text>{"Payment :"}</Text>
       </span>{" "}
-      {paymentMethod}
+      <Text>{account.label}</Text>
     </p>
 
     <p>
