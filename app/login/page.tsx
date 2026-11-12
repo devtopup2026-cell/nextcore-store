@@ -1,10 +1,13 @@
 "use client";
+import { Text, LanguageToggle, useLanguage } from "@/app/i18n/language";
+
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const { translate } = useLanguage();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -58,6 +61,7 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen bg-[#080808] px-4 py-12 text-white">
+      <div className="fixed right-4 top-4 z-40"><LanguageToggle /></div>
       <div className="mx-auto w-full max-w-md">
         <div className="mb-8 text-center">
           <Link
@@ -68,11 +72,11 @@ export default function LoginPage() {
           </Link>
 
           <h1 className="mt-6 text-2xl font-bold">
-            Login
+            <Text>{"Login"}</Text>
           </h1>
 
           <p className="mt-2 text-sm text-zinc-400">
-            เข้าสู่ระบบสมาชิก NEXTCORE
+            <Text>{"เข้าสู่ระบบสมาชิก NEXTCORE"}</Text>
           </p>
         </div>
 
@@ -89,7 +93,7 @@ export default function LoginPage() {
           <div className="space-y-5">
             <div>
               <label className="mb-2 block text-sm font-medium">
-                Email
+                <Text>{"Email"}</Text>
               </label>
 
               <input
@@ -105,7 +109,7 @@ export default function LoginPage() {
 
             <div>
               <label className="mb-2 block text-sm font-medium">
-                Password
+                <Text>{"Password"}</Text>
               </label>
 
               <input
@@ -114,7 +118,7 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                placeholder={translate("Password")}
                 className="w-full rounded-lg border border-zinc-800 bg-black px-4 py-3 outline-none transition focus:border-red-600"
               />
             </div>
@@ -125,16 +129,16 @@ export default function LoginPage() {
             disabled={loading}
             className="mt-8 w-full rounded-lg bg-red-600 px-4 py-3 font-bold transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? <Text>{"Logging in..."}</Text> : <Text>{"Login"}</Text>}
           </button>
 
           <p className="mt-6 text-center text-sm text-zinc-400">
-            ยังไม่มีบัญชี?{" "}
+            <Text>{"ยังไม่มีบัญชี?"}</Text>{" "}
             <Link
               href="/register"
               className="font-medium text-red-500 hover:text-red-400"
             >
-              Create Account
+              <Text>{"Create Account"}</Text>
             </Link>
           </p>
 
@@ -143,7 +147,7 @@ export default function LoginPage() {
               href="/"
               className="text-sm text-zinc-500 transition hover:text-white"
             >
-              ← กลับหน้าร้าน
+              <Text>{"← กลับหน้าร้าน"}</Text>
             </Link>
           </div>
         </form>

@@ -1,3 +1,4 @@
+import { Text } from "@/app/i18n/language";
 export default function Footer() {
   return (
     <footer className="bg-black border-t border-red-600 text-white py-10">
@@ -9,11 +10,11 @@ export default function Footer() {
         </h3>
 
         <p className="text-zinc-400">
-          Computer • Gaming • Custom PC
+          <Text>{"Computer • Gaming • Custom PC"}</Text>
         </p>
 
         <p className="text-zinc-500 mt-4">
-          © 2026 NEXTCORE All Rights Reserved
+          <Text>{"© 2026 NEXTCORE All Rights Reserved"}</Text>
         </p>
 
       </div>

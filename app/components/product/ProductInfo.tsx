@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 import { useRouter } from "next/navigation";
 import { useCart } from "@/store/cart.store";
 import type { Product } from "@/types/product";
@@ -28,7 +30,7 @@ export default function ProductInfo({ product }: Props) {
         ⭐ {product.rating}
 
         <span className="text-zinc-500">
-          ({product.reviewCount} Reviews)
+          ({product.reviewCount} <Text>{"Reviews)"}</Text>
         </span>
 
       </div>
@@ -59,11 +61,11 @@ export default function ProductInfo({ product }: Props) {
 
 {product.stock > 0 ? (
   <p className="mt-6 text-green-400 font-bold">
-    ✔ มีสินค้า {product.stock} ชิ้น
+    <Text>{"✔ มีสินค้า"}</Text> {product.stock} <Text>{"ชิ้น"}</Text>
   </p>
 ) : (
   <p className="mt-6 text-red-500 font-bold">
-    ✖ สินค้าหมด
+    <Text>{"✖ สินค้าหมด"}</Text>
   </p>
 )}
 
@@ -92,8 +94,8 @@ export default function ProductInfo({ product }: Props) {
   }`}
 >
   {product.stock <= 0
-    ? "Out of Stock"
-    : "Add To Cart"}
+    ? <Text>{"Out of Stock"}</Text>
+    : <Text>{"Add To Cart"}</Text>}
 </button>
 
 <button
@@ -113,7 +115,7 @@ export default function ProductInfo({ product }: Props) {
       : "border-red-600 hover:bg-red-600"
   }`}
 >
-  Buy Now
+  <Text>{"Buy Now"}</Text>
 </button>
 
       </div>

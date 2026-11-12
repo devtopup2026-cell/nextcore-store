@@ -1,4 +1,6 @@
 "use client";
+import { Text, useLanguage } from "@/app/i18n/language";
+
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,6 +23,7 @@ type ProductForm = {
 };
 
 export default function NewProductPage() {
+  const { translate } = useLanguage();
   const router = useRouter();
 
   const [saving, setSaving] = useState(false);
@@ -256,11 +259,11 @@ return (
       <div className="mb-10">
 
           <p className="font-bold text-red-500">
-            ADMIN
+            <Text>{"ADMIN"}</Text>
           </p>
 
           <h1 className="mt-2 text-4xl font-bold">
-            Add Product
+            <Text>{"Add Product"}</Text>
           </h1>
 
           <p className="mt-2 text-zinc-400">
@@ -276,7 +279,7 @@ return (
         >
 
           <h2 className="mb-8 text-2xl font-bold">
-            Product Information
+            <Text>{"Product Information"}</Text>
           </h2>
 
 
@@ -287,7 +290,7 @@ return (
             <label className="block">
 
               <span className="font-bold">
-                Product ID
+                <Text>{"Product ID"}</Text>
               </span>
 
               <input
@@ -308,7 +311,7 @@ return (
             <label className="block">
 
               <span className="font-bold">
-                Product Name
+                <Text>{"Product Name"}</Text>
               </span>
 
               <input
@@ -341,7 +344,7 @@ return (
               />
 
               <p className="mt-2 text-xs text-zinc-500">
-                ระบบสร้างจากชื่อสินค้าให้อัตโนมัติ และสามารถแก้เองได้
+                <Text>{"ระบบสร้างจากชื่อสินค้าให้อัตโนมัติ และสามารถแก้เองได้"}</Text>
               </p>
 
             </label>
@@ -350,7 +353,7 @@ return (
 
             <label className="block">
               <span className="font-bold">
-                Brand
+                <Text>{"Brand"}</Text>
               </span>
 
               <input
@@ -368,7 +371,7 @@ return (
 
             <label className="block">
               <span className="font-bold">
-                Category
+                <Text>{"Category"}</Text>
               </span>
 
               <select
@@ -384,7 +387,7 @@ return (
                 required
               >
                 <option value="">
-                  Select Category
+                  <Text>{"Select Category"}</Text>
                 </option>
 
                 <option value="CPU">CPU</option>
@@ -393,13 +396,13 @@ return (
                 <option value="SSD">SSD</option>
                 <option value="HDD">HDD</option>
                 <option value="PSU">PSU</option>
-                <option value="Monitor">Monitor</option>
-                <option value="Keyboard">Keyboard</option>
-                <option value="Mouse">Mouse</option>
+                <option value="Monitor"><Text>{"Monitor"}</Text></option>
+                <option value="Keyboard"><Text>{"Keyboard"}</Text></option>
+                <option value="Mouse"><Text>{"Mouse"}</Text></option>
                 <option value="Gaming Gear">
-                  Gaming Gear
+                  <Text>{"Gaming Gear"}</Text>
                 </option>
-                <option value="PC Set">PC Set</option>
+                <option value="PC Set"><Text>{"PC Set"}</Text></option>
               </select>
             </label>
            
@@ -409,7 +412,7 @@ return (
             <label className="block">
 
               <span className="font-bold">
-                Price
+                <Text>{"Price"}</Text>
               </span>
 
               <input
@@ -430,7 +433,7 @@ return (
 
                 <label className="block">
                   <span className="font-bold">
-                    Compare Price
+                    <Text>{"Compare Price"}</Text>
                   </span>
 
                   <input
@@ -445,7 +448,7 @@ return (
                   />
 
                   <p className="mt-2 text-xs text-zinc-500">
-                    ไม่ใส่ได้ หากสินค้าไม่มีราคาเดิมก่อนลด
+                    <Text>{"ไม่ใส่ได้ หากสินค้าไม่มีราคาเดิมก่อนลด"}</Text>
                   </p>
                 </label>
 
@@ -456,7 +459,7 @@ return (
             <label className="block">
 
               <span className="font-bold">
-                Stock
+                <Text>{"Stock"}</Text>
               </span>
 
               <input
@@ -478,7 +481,7 @@ return (
 
             <div>
               <label className="block mb-2 font-semibold">
-                Product Image
+                <Text>{"Product Image"}</Text>
               </label>
 
               <input
@@ -497,18 +500,18 @@ return (
               />
 
               <p className="mt-2 text-sm text-zinc-500">
-                JPG, PNG or WEBP — maximum 5 MB
+                <Text>{"JPG, PNG or WEBP — maximum 5 MB"}</Text>
               </p>
 
               {imagePreview && (
                 <div className="mt-4">
                   <p className="mb-2 text-sm text-zinc-400">
-                    Preview
+                    <Text>{"Preview"}</Text>
                   </p>
 
                   <img
                     src={imagePreview}
-                    alt="Product preview"
+                    alt={translate("Product preview")}
                     className="
                       h-56
                       w-56
@@ -542,7 +545,7 @@ return (
                       />
 
                       <span className="font-bold">
-                        Featured / Best Seller
+                        <Text>{"Featured / Best Seller"}</Text>
                       </span>
                     </label>
 
@@ -561,7 +564,7 @@ return (
                       />
 
                       <span className="font-bold">
-                        New Product
+                        <Text>{"New Product"}</Text>
                       </span>
                     </label>
 
@@ -574,7 +577,7 @@ return (
             <label className="block md:col-span-2">
 
               <span className="font-bold">
-                Description
+                <Text>{"Description"}</Text>
               </span>
 
               <textarea
@@ -582,7 +585,7 @@ return (
                 value={form.description}
                 onChange={handleChange}
                 rows={6}
-                placeholder="Product description..."
+                placeholder={translate("Product description...")}
                 className={inputClass}
               />
 
@@ -620,10 +623,10 @@ return (
               "
             >
                 {uploading
-                  ? "Uploading image..."
+                  ? <Text>{"Uploading image..."}</Text>
                   : saving
-                  ? "Creating..."
-                : "Create Product"}
+                  ? <Text>{"Creating..."}</Text>
+                : <Text>{"Create Product"}</Text>}
             </button>
 
 
@@ -643,7 +646,7 @@ return (
                 hover:bg-zinc-600
               "
             >
-              Cancel
+              <Text>{"Cancel"}</Text>
             </button>
 
           </div>

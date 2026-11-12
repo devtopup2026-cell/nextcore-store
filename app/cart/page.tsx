@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import Image from "next/image";
 import Link from "next/link";
@@ -26,25 +28,25 @@ export default function CartPage() {
         <div className="mx-auto max-w-7xl px-6 py-16">
 
           <h1 className="mb-10 text-5xl font-black">
-            Shopping Cart
+            <Text>{"Shopping Cart"}</Text>
           </h1>
 
           {items.length === 0 ? (
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-10 text-center">
 
               <h2 className="text-3xl font-bold">
-                ตะกร้าสินค้าว่าง
+                <Text>{"ตะกร้าสินค้าว่าง"}</Text>
               </h2>
 
               <p className="mt-4 text-zinc-400">
-                ยังไม่มีสินค้าในตะกร้า
+                <Text>{"ยังไม่มีสินค้าในตะกร้า"}</Text>
               </p>
 
               <Link
                 href="/products"
                 className="mt-8 inline-block rounded-xl bg-red-600 px-8 py-4 font-bold hover:bg-red-500"
               >
-                เลือกซื้อสินค้า
+                <Text>{"เลือกซื้อสินค้า"}</Text>
               </Link>
 
             </div>
@@ -121,13 +123,13 @@ export default function CartPage() {
                               transition
                               "
                         >
-                          Remove
+                          <Text>{"Remove"}</Text>
                         </button>
 
                       </div>
 
                       <p className="mt-3 text-zinc-400">
-  รวม&nbsp;
+  <Text>{"รวม&nbsp;"}</Text>
   <span className="font-bold text-white">
     ฿{(item.product.price * item.quantity).toLocaleString()}
   </span>
@@ -144,12 +146,12 @@ export default function CartPage() {
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 h-fit">
 
                 <h2 className="text-3xl font-bold">
-                  Summary
+                  <Text>{"Summary"}</Text>
                 </h2>
 
                 <div className="mt-8 flex justify-between">
 
-                  <span>Total</span>
+                  <span><Text>{"Total"}</Text></span>
 
                   <span className="text-3xl font-black text-red-500">
                     ฿{totalPrice().toLocaleString()}
@@ -172,7 +174,7 @@ export default function CartPage() {
                    hover:bg-red-500
                    "
                    >
-                       Checkout
+                       <Text>{"Checkout"}</Text>
                 </Link>                
                 
 
@@ -180,7 +182,7 @@ export default function CartPage() {
                   onClick={clear}
                   className="mt-4 w-full rounded-xl border border-red-600 py-4 hover:bg-red-600"
                 >
-                  Clear Cart
+                  <Text>{"Clear Cart"}</Text>
                 </button>
 
               </div>

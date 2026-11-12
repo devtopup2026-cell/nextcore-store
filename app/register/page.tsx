@@ -1,10 +1,13 @@
 "use client";
+import { Text, LanguageToggle, useLanguage } from "@/app/i18n/language";
+
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+  const { translate } = useLanguage();
   const router = useRouter();
 
   const [form, setForm] = useState({
@@ -91,6 +94,7 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen bg-[#080808] px-4 py-12 text-white">
+      <div className="fixed right-4 top-4 z-40"><LanguageToggle /></div>
       <div className="mx-auto w-full max-w-xl">
         <div className="mb-8 text-center">
           <Link
@@ -101,11 +105,11 @@ export default function RegisterPage() {
           </Link>
 
           <h1 className="mt-6 text-2xl font-bold">
-            Create Account
+            <Text>{"Create Account"}</Text>
           </h1>
 
           <p className="mt-2 text-sm text-zinc-400">
-            สมัครสมาชิก NEXTCORE
+            <Text>{"สมัครสมาชิก NEXTCORE"}</Text>
           </p>
         </div>
 
@@ -122,7 +126,7 @@ export default function RegisterPage() {
           <div className="space-y-5">
             <div>
               <label className="mb-2 block text-sm font-medium">
-                ชื่อ-นามสกุล
+                <Text>{"ชื่อ-นามสกุล"}</Text>
               </label>
 
               <input
@@ -132,14 +136,14 @@ export default function RegisterPage() {
                 onChange={(e) =>
                   updateField("fullName", e.target.value)
                 }
-                placeholder="ชื่อ-นามสกุล"
+                placeholder={translate("ชื่อ-นามสกุล")}
                 className="w-full rounded-lg border border-zinc-800 bg-black px-4 py-3 outline-none transition focus:border-red-600"
               />
             </div>
 
             <div>
               <label className="mb-2 block text-sm font-medium">
-                Email
+                <Text>{"Email"}</Text>
               </label>
 
               <input
@@ -158,7 +162,7 @@ export default function RegisterPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
                 <label className="mb-2 block text-sm font-medium">
-                  Password
+                  <Text>{"Password"}</Text>
                 </label>
 
                 <input
@@ -170,14 +174,14 @@ export default function RegisterPage() {
                   onChange={(e) =>
                     updateField("password", e.target.value)
                   }
-                  placeholder="อย่างน้อย 8 ตัวอักษร"
+                  placeholder={translate("อย่างน้อย 8 ตัวอักษร")}
                   className="w-full rounded-lg border border-zinc-800 bg-black px-4 py-3 outline-none transition focus:border-red-600"
                 />
               </div>
 
               <div>
                 <label className="mb-2 block text-sm font-medium">
-                  Confirm Password
+                  <Text>{"Confirm Password"}</Text>
                 </label>
 
                 <input
@@ -192,7 +196,7 @@ export default function RegisterPage() {
                       e.target.value
                     )
                   }
-                  placeholder="ยืนยัน Password"
+                  placeholder={translate("ยืนยัน Password")}
                   className="w-full rounded-lg border border-zinc-800 bg-black px-4 py-3 outline-none transition focus:border-red-600"
                 />
               </div>
@@ -200,7 +204,7 @@ export default function RegisterPage() {
 
             <div>
               <label className="mb-2 block text-sm font-medium">
-                เบอร์โทรศัพท์
+                <Text>{"เบอร์โทรศัพท์"}</Text>
               </label>
 
               <input
@@ -217,7 +221,7 @@ export default function RegisterPage() {
 
             <div>
               <label className="mb-2 block text-sm font-medium">
-                ที่อยู่
+                <Text>{"ที่อยู่"}</Text>
               </label>
 
               <textarea
@@ -227,14 +231,14 @@ export default function RegisterPage() {
                 onChange={(e) =>
                   updateField("address", e.target.value)
                 }
-                placeholder="ที่อยู่สำหรับจัดส่งสินค้า"
+                placeholder={translate("ที่อยู่สำหรับจัดส่งสินค้า")}
                 className="w-full resize-none rounded-lg border border-zinc-800 bg-black px-4 py-3 outline-none transition focus:border-red-600"
               />
             </div>
 
             <div>
               <label className="mb-2 block text-sm font-medium">
-                รหัสไปรษณีย์
+                <Text>{"รหัสไปรษณีย์"}</Text>
               </label>
 
               <input
@@ -255,16 +259,16 @@ export default function RegisterPage() {
             disabled={loading}
             className="mt-8 w-full rounded-lg bg-red-600 px-4 py-3 font-bold transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Creating Account..." : "Create Account"}
+            {loading ? <Text>{"Creating Account..."}</Text> : <Text>{"Create Account"}</Text>}
           </button>
 
           <p className="mt-6 text-center text-sm text-zinc-400">
-            มีบัญชีอยู่แล้ว?{" "}
+            <Text>{"มีบัญชีอยู่แล้ว?"}</Text>{" "}
             <Link
               href="/login"
               className="font-medium text-red-500 hover:text-red-400"
             >
-              Login
+              <Text>{"Login"}</Text>
             </Link>
           </p>
         </form>

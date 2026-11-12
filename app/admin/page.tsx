@@ -1,4 +1,6 @@
 "use client";
+import { Text, useLanguage } from "@/app/i18n/language";
+
 
 
 import { useEffect, useState } from "react";
@@ -41,6 +43,7 @@ type Order = {
 };
 
 export default function AdminPage() {
+  const { translate } = useLanguage();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -234,7 +237,7 @@ const toggleOrderDetails = (orderId: string) => {
       <div className="mb-10">
 
           <h1 className="text-5xl font-bold">
-            NEXTCORE ADMIN
+            <Text>{"NEXTCORE ADMIN"}</Text>
           </h1>
 
           <div className="mt-6 rounded-2xl bg-zinc-900 p-6">
@@ -252,7 +255,7 @@ const toggleOrderDetails = (orderId: string) => {
 
             <div className="bg-zinc-900 rounded-3xl p-6">
               <h2 className="text-zinc-400 mb-2">
-                Total Orders
+                <Text>{"Total Orders"}</Text>
               </h2>
 
               <p className="text-4xl font-bold text-red-500">
@@ -263,7 +266,7 @@ const toggleOrderDetails = (orderId: string) => {
 
             <div className="bg-zinc-900 rounded-3xl p-6">
               <h2 className="text-zinc-400 mb-2">
-                Pending
+                <Text>{"Pending"}</Text>
               </h2>
 
               <p className="text-4xl font-bold text-yellow-500">
@@ -274,7 +277,7 @@ const toggleOrderDetails = (orderId: string) => {
 
             <div className="bg-zinc-900 rounded-3xl p-6">
               <h2 className="text-zinc-400 mb-2">
-                Completed
+                <Text>{"Completed"}</Text>
               </h2>
 
               <p className="text-4xl font-bold text-green-500">
@@ -285,7 +288,7 @@ const toggleOrderDetails = (orderId: string) => {
 
             <div className="bg-zinc-900 rounded-3xl p-6">
               <h2 className="text-zinc-400 mb-2">
-                Today's Sales
+                <Text>{"Today's Sales"}</Text>
               </h2>
 
               <p className="text-4xl font-bold text-red-500">
@@ -303,7 +306,7 @@ const toggleOrderDetails = (orderId: string) => {
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-3xl font-bold mb-6">
-              Latest Orders
+              <Text>{"Latest Orders"}</Text>
             </h2>
 
             <div className="mb-6">
@@ -313,7 +316,7 @@ const toggleOrderDetails = (orderId: string) => {
     onChange={(e) =>
       setSearchTerm(e.target.value)
     }
-    placeholder="Search Order ID, Customer, Email or Phone..."
+    placeholder={translate("Search Order ID, Customer, Email or Phone...")}
     className="
       w-full
       rounded-xl
@@ -367,20 +370,20 @@ const toggleOrderDetails = (orderId: string) => {
 
 {loading ? (
   <p className="text-zinc-400">
-    กำลังโหลดรายการสั่งซื้อ...
+    <Text>{"กำลังโหลดรายการสั่งซื้อ..."}</Text>
   </p>
 ) : orders.length === 0 ? (
   <p className="text-zinc-400">
-    ยังไม่มีรายการสั่งซื้อ
+    <Text>{"ยังไม่มีรายการสั่งซื้อ"}</Text>
   </p>
 ) : filteredOrders.length === 0 ? (
   <div className="rounded-2xl bg-zinc-800 p-8 text-center">
     <p className="text-xl font-bold text-white">
-      ไม่พบรายการสั่งซื้อ
+      <Text>{"ไม่พบรายการสั่งซื้อ"}</Text>
     </p>
 
     <p className="mt-2 text-zinc-400">
-      ลองเปลี่ยนคำค้นหาหรือสถานะ Order
+      <Text>{"ลองเปลี่ยนคำค้นหาหรือสถานะ Order"}</Text>
     </p>
   </div>
 ) : (
@@ -403,7 +406,7 @@ const toggleOrderDetails = (orderId: string) => {
 
   <div className="rounded-xl bg-zinc-900 p-4">
     <p className="text-sm text-zinc-400">
-      Customer
+      <Text>{"Customer"}</Text>
     </p>
 
     <p className="font-bold">
@@ -413,7 +416,7 @@ const toggleOrderDetails = (orderId: string) => {
 
   <div className="rounded-xl bg-zinc-900 p-4">
     <p className="text-sm text-zinc-400">
-      Total
+      <Text>{"Total"}</Text>
     </p>
 
     <p className="font-bold">
@@ -423,11 +426,11 @@ const toggleOrderDetails = (orderId: string) => {
 
   <div className="rounded-xl bg-zinc-900 p-4">
     <p className="text-sm text-zinc-400">
-      Status
+      <Text>{"Status"}</Text>
     </p>
 
     <p className={`font-bold ${getStatusClass(order.status)}`}>
-      {order.status}
+      <Text>{order.status}</Text>
     </p>
   </div>
 
@@ -446,8 +449,8 @@ const toggleOrderDetails = (orderId: string) => {
   "
 >
   {expandedOrders.includes(order.id)
-    ? "Hide Details"
-    : "View Details"}
+    ? <Text>{"Hide Details"}</Text>
+    : <Text>{"View Details"}</Text>}
 </button>
 
 {expandedOrders.includes(order.id) && (
@@ -460,42 +463,42 @@ const toggleOrderDetails = (orderId: string) => {
   <div className="rounded-2xl bg-zinc-900 p-6">
 
     <h3 className="text-xl font-bold mb-5">
-      Customer Information
+      <Text>{"Customer Information"}</Text>
     </h3>
 
     <div className="space-y-3 text-zinc-300">
 
       <p>
         <span className="font-bold text-white">
-          Name :
+          <Text>{"Name :"}</Text>
         </span>{" "}
         {order.recipientName}
       </p>
 
       <p>
         <span className="font-bold text-white">
-          Email :
+          <Text>{"Email :"}</Text>
         </span>{" "}
         {order.recipientEmail}
       </p>
 
       <p>
         <span className="font-bold text-white">
-          Phone :
+          <Text>{"Phone :"}</Text>
         </span>{" "}
         {order.recipientPhone}
       </p>
 
       <p>
         <span className="font-bold text-white">
-          Address :
+          <Text>{"Address :"}</Text>
         </span>{" "}
         {order.shippingAddress}
       </p>
 
       <p>
         <span className="font-bold text-white">
-          Postal Code :
+          <Text>{"Postal Code :"}</Text>
         </span>{" "}
         {order.shippingPostalCode}
       </p>
@@ -510,35 +513,35 @@ const toggleOrderDetails = (orderId: string) => {
   <div className="rounded-2xl bg-zinc-900 p-6">
 
     <h3 className="text-xl font-bold mb-5">
-      Order Information
+      <Text>{"Order Information"}</Text>
     </h3>
 
     <div className="space-y-3 text-zinc-300">
 
       <p>
         <span className="font-bold text-white">
-          Payment :
+          <Text>{"Payment :"}</Text>
         </span>{" "}
         {order.paymentMethod}
       </p>
 
       <p>
         <span className="font-bold text-white">
-          Total :
+          <Text>{"Total :"}</Text>
         </span>{" "}
         ฿{order.total.toLocaleString()}
       </p>
 
       <p>
         <span className="font-bold text-white">
-          Items :
+          <Text>{"Items :"}</Text>
         </span>{" "}
         {order.items.length}
       </p>
 
       <p>
         <span className="font-bold text-white">
-          Status :
+          <Text>{"Status :"}</Text>
         </span>{" "}
 
         <span
@@ -546,14 +549,14 @@ const toggleOrderDetails = (orderId: string) => {
             order.status
           )}`}
         >
-          {order.status}
+          <Text>{order.status}</Text>
         </span>
 
       </p>
 
       <p>
         <span className="font-bold text-white">
-          Created :
+          <Text>{"Created :"}</Text>
         </span>{" "}
 
         {new Date(
@@ -576,7 +579,7 @@ const toggleOrderDetails = (orderId: string) => {
                   <div className="mt-6">
 
                     <h3 className="text-xl font-bold mb-3">
-                      Products
+                      <Text>{"Products"}</Text>
                     </h3>
 
 
@@ -592,7 +595,7 @@ const toggleOrderDetails = (orderId: string) => {
                         </p>
 
                         <p>
-                          Qty : {item.quantity}
+                          <Text>{"Qty :"}</Text> {item.quantity}
                         </p>
 
                         <p>
@@ -630,7 +633,7 @@ const toggleOrderDetails = (orderId: string) => {
                         hover:bg-blue-500
                       "
                     >
-                      View Slip
+                      <Text>{"View Slip"}</Text>
                     </button>
 
                   )}
@@ -671,8 +674,8 @@ const toggleOrderDetails = (orderId: string) => {
                         "
                       >
                         {updatingId === order.id
-                          ? "Updating..."
-                          : "Approve"}
+                          ? <Text>{"Updating..."}</Text>
+                          : <Text>{"Approve"}</Text>}
                       </button>
 
                     )}
@@ -706,8 +709,8 @@ const toggleOrderDetails = (orderId: string) => {
                         "
                       >
                         {updatingId === order.id
-                          ? "Updating..."
-                          : "Shipping"}
+                          ? <Text>{"Updating..."}</Text>
+                          : <Text>{"Shipping"}</Text>}
                       </button>
 
                     )}
@@ -741,8 +744,8 @@ const toggleOrderDetails = (orderId: string) => {
                         "
                       >
                         {updatingId === order.id
-                          ? "Updating..."
-                          : "Complete"}
+                          ? <Text>{"Updating..."}</Text>
+                          : <Text>{"Complete"}</Text>}
                       </button>
 
                     )}
@@ -788,8 +791,8 @@ const toggleOrderDetails = (orderId: string) => {
                           "
                         >
                           {updatingId === order.id
-                            ? "Updating..."
-                            : "Reject"}
+                            ? <Text>{"Updating..."}</Text>
+                            : <Text>{"Reject"}</Text>}
                         </button>
 
                       )}

@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 const categories = [
   "All",
@@ -23,7 +25,7 @@ export default function ProductFilter({
   <aside className="min-w-0 rounded-2xl bg-zinc-900 p-4 sm:p-6">
 
     <h2 className="mb-4 text-xl font-bold sm:text-2xl lg:mb-6">
-      Categories
+      <Text>{"Categories"}</Text>
     </h2>
 
     <div
@@ -60,7 +62,7 @@ export default function ProductFilter({
             }
           `}
         >
-          {item}
+          <Text>{item}</Text>
         </button>
       ))}
     </div>

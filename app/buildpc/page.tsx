@@ -1,4 +1,6 @@
 "use client";
+import { Text, LanguageToggle } from "@/app/i18n/language";
+
 
 import { useEffect, useState } from "react";
 import { useCart } from "@/store/cart.store";
@@ -145,18 +147,19 @@ const totalItems = selectedProducts.reduce((count, product) => {
 
   return (
     <main className="min-h-screen bg-black text-white">
+      <div className="fixed right-4 top-4 z-40"><LanguageToggle /></div>
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-10">
           <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-red-500">
-            NEXTCORE PC BUILDER
+            <Text>{"NEXTCORE PC BUILDER"}</Text>
           </p>
 
           <h1 className="text-4xl font-bold md:text-5xl">
-            Build Your PC
+            <Text>{"Build Your PC"}</Text>
           </h1>
 
           <p className="mt-4 text-zinc-400">
-            เลือกอุปกรณ์สำหรับประกอบคอมพิวเตอร์ในแบบที่คุณต้องการ
+            <Text>{"เลือกอุปกรณ์สำหรับประกอบคอมพิวเตอร์ในแบบที่คุณต้องการ"}</Text>
           </p>
         </div>
 
@@ -180,7 +183,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
       >
         <div>
           <p className="text-sm font-semibold text-red-500">
-            {category}
+            <Text>{category}</Text>
           </p>
 
           <h2 className="mt-1 text-lg font-bold">
@@ -234,7 +237,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
         </button>
 
         <span className="text-sm text-zinc-500">
-          Stock: {selectedParts[category]?.stock ?? 0}
+          <Text>{"Stock:"}</Text> {selectedParts[category]?.stock ?? 0}
         </span>
       </div>
     )}
@@ -276,7 +279,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
     </button>
 
     <span className="text-sm text-zinc-500">
-      Stock: {selectedParts[category]?.stock ?? 0}
+      <Text>{"Stock:"}</Text> {selectedParts[category]?.stock ?? 0}
     </span>
 
   </div>
@@ -319,7 +322,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
     </button>
 
     <span className="text-sm text-zinc-500">
-      Stock: {selectedParts[category]?.stock ?? 0}
+      <Text>{"Stock:"}</Text> {selectedParts[category]?.stock ?? 0}
     </span>
   </div>
 )}
@@ -327,7 +330,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
   </div>
 ) : (
             <p className="mt-1 text-sm text-zinc-500">
-              ยังไม่ได้เลือกสินค้า
+              <Text>{"ยังไม่ได้เลือกสินค้า"}</Text>
             </p>
           )}
         </div>
@@ -340,7 +343,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
         onClick={() => setSelectedCategory(category)}
         className="rounded-xl bg-red-600 px-6 py-3 font-bold text-white hover:bg-red-700"
       >
-        Change
+        <Text>{"Change"}</Text>
       </button>
 
       <button
@@ -348,7 +351,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
         onClick={() => handleRemovePart(category)}
         className="rounded-xl border border-red-600 px-5 py-3 font-bold text-red-500 transition hover:bg-red-600 hover:text-white"
       >
-        Remove
+        <Text>{"Remove"}</Text>
       </button>
     </>
   ) : (
@@ -357,7 +360,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
       onClick={() => setSelectedCategory(category)}
       className="rounded-xl bg-red-600 px-6 py-3 font-bold text-white hover:bg-red-700"
     >
-      Select
+      <Text>{"Select"}</Text>
     </button>
   )}
 </div>
@@ -368,18 +371,18 @@ const totalItems = selectedProducts.reduce((count, product) => {
   {/* SUMMARY */}
   <aside className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/70 p-6 lg:sticky lg:top-6">
     <h2 className="text-2xl font-bold">
-      Build Summary
+      <Text>{"Build Summary"}</Text>
     </h2>
 
     <div className="my-6 border-t border-zinc-800" />
 
     <div className="flex items-center justify-between">
-      <span className="text-zinc-400">Selected Parts</span>
+      <span className="text-zinc-400"><Text>{"Selected Parts"}</Text></span>
       <span className="font-semibold">{selectedCount}</span>
     </div>
 
     <div className="mt-4 flex items-end justify-between">
-      <span className="text-zinc-400">Total</span>
+      <span className="text-zinc-400"><Text>{"Total"}</Text></span>
 
       <span className="text-3xl font-bold text-red-500">
         ฿{totalPrice.toLocaleString()}
@@ -392,7 +395,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
       disabled={selectedCount === 0}
       className="mt-6 w-full rounded-xl bg-red-600 py-4 font-bold text-white disabled:cursor-not-allowed disabled:bg-zinc-800 disabled:text-zinc-500"
     >
-      Add Build To Cart
+      <Text>{"Add Build To Cart"}</Text>
     </button>
 
     <button
@@ -401,11 +404,11 @@ const totalItems = selectedProducts.reduce((count, product) => {
   disabled={selectedCount === 0}
   className="mt-3 w-full rounded-xl border border-red-600 py-3 font-bold text-red-500 transition hover:bg-red-600 hover:text-white disabled:cursor-not-allowed disabled:border-zinc-800 disabled:text-zinc-600 disabled:hover:bg-transparent"
 >
-  Clear Build
+  <Text>{"Clear Build"}</Text>
 </button>
 
     <p className="mt-3 text-center text-xs text-zinc-500">
-      เลือกอุปกรณ์เพื่อเริ่มจัดสเปค
+      <Text>{"เลือกอุปกรณ์เพื่อเริ่มจัดสเปค"}</Text>
     </p>
   </aside>
 </div>
@@ -418,11 +421,11 @@ const totalItems = selectedProducts.reduce((count, product) => {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <p className="text-sm font-semibold uppercase text-red-500">
-            {selectedCategory}
+            <Text>{selectedCategory ?? ""}</Text>
           </p>
 
           <h2 className="mt-1 text-2xl font-bold">
-            Select Product
+            <Text>{"Select Product"}</Text>
           </h2>
         </div>
 
@@ -485,7 +488,7 @@ const totalItems = selectedProducts.reduce((count, product) => {
                 }}
                 className="rounded-xl bg-red-600 px-5 py-3 font-semibold hover:bg-red-700"
             >
-                Choose
+                <Text>{"Choose"}</Text>
                 </button>
             </div>
           ))}

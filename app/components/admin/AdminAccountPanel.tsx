@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -44,7 +46,7 @@ export default function AdminAccountPanel() {
   if (loading) {
     return (
       <div className="text-sm text-zinc-500">
-        Loading admin...
+        <Text>{"Loading admin..."}</Text>
       </div>
     );
   }
@@ -61,7 +63,7 @@ export default function AdminAccountPanel() {
 
       <div>
         <p className="text-sm text-zinc-400">
-          Logged in as
+          <Text>{"Logged in as"}</Text>
         </p>
 
         <p className="mt-1 text-lg font-bold">
@@ -114,7 +116,7 @@ export default function AdminAccountPanel() {
       hover:text-red-500
     "
   >
-    Dashboard
+    <Text>{"Dashboard"}</Text>
   </button>
 
   <button
@@ -134,7 +136,7 @@ export default function AdminAccountPanel() {
       hover:text-red-500
     "
   >
-    Products
+    <Text>{"Products"}</Text>
   </button>
 
   {isSuperAdmin && (
@@ -152,7 +154,7 @@ export default function AdminAccountPanel() {
         hover:bg-red-500
       "
     >
-      Order Manager
+      <Text>{"Order Manager"}</Text>
     </button>
   )}
 
@@ -173,7 +175,7 @@ export default function AdminAccountPanel() {
       hover:text-red-500
     "
   >
-    View Store
+    <Text>{"View Store"}</Text>
   </button>
 
   <AdminLogoutButton />

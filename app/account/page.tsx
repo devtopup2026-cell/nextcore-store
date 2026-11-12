@@ -1,3 +1,4 @@
+import { Text, LanguageToggle } from "@/app/i18n/language";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -32,6 +33,7 @@ export default async function AccountPage() {
 
   return (
     <main className="min-h-screen bg-[#080808] px-4 py-12 text-white">
+      <div className="fixed right-4 top-4 z-40"><LanguageToggle /></div>
       <div className="mx-auto max-w-5xl">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -43,11 +45,11 @@ export default async function AccountPage() {
             </Link>
 
             <h1 className="mt-5 text-3xl font-bold">
-              My Account
+              <Text>{"My Account"}</Text>
             </h1>
 
             <p className="mt-2 text-zinc-400">
-              ยินดีต้อนรับ {customer.fullName}
+              <Text>{"ยินดีต้อนรับ"}</Text> {customer.fullName}
             </p>
           </div>
 
@@ -56,14 +58,14 @@ export default async function AccountPage() {
     href="/account/edit"
     className="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700"
   >
-    Edit Profile
+    <Text>{"Edit Profile"}</Text>
   </Link>
 
   <Link
     href="/"
     className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-white transition hover:border-red-600 hover:text-red-500"
   >
-    ← กลับหน้าร้าน
+    <Text>{"← กลับหน้าร้าน"}</Text>
   </Link>
 
   <CustomerLogoutButton />
@@ -74,13 +76,13 @@ export default async function AccountPage() {
         <div className="grid gap-6 lg:grid-cols-3">
           <section className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 lg:col-span-1">
             <h2 className="text-lg font-bold">
-              ข้อมูลสมาชิก
+              <Text>{"ข้อมูลสมาชิก"}</Text>
             </h2>
 
             <div className="mt-6 space-y-5 text-sm">
               <div>
                 <p className="text-zinc-500">
-                  ชื่อ-นามสกุล
+                  <Text>{"ชื่อ-นามสกุล"}</Text>
                 </p>
                 <p className="mt-1 text-white">
                   {customer.fullName}
@@ -88,7 +90,7 @@ export default async function AccountPage() {
               </div>
 
               <div>
-                <p className="text-zinc-500">Email</p>
+                <p className="text-zinc-500"><Text>{"Email"}</Text></p>
                 <p className="mt-1 break-all text-white">
                   {customer.email}
                 </p>
@@ -96,7 +98,7 @@ export default async function AccountPage() {
 
               <div>
                 <p className="text-zinc-500">
-                  เบอร์โทรศัพท์
+                  <Text>{"เบอร์โทรศัพท์"}</Text>
                 </p>
                 <p className="mt-1 text-white">
                   {customer.phone}
@@ -105,7 +107,7 @@ export default async function AccountPage() {
 
               <div>
                 <p className="text-zinc-500">
-                  ที่อยู่
+                  <Text>{"ที่อยู่"}</Text>
                 </p>
                 <p className="mt-1 whitespace-pre-line text-white">
                   {customer.address}
@@ -114,7 +116,7 @@ export default async function AccountPage() {
 
               <div>
                 <p className="text-zinc-500">
-                  รหัสไปรษณีย์
+                  <Text>{"รหัสไปรษณีย์"}</Text>
                 </p>
                 <p className="mt-1 text-white">
                   {customer.postalCode}
@@ -127,11 +129,11 @@ export default async function AccountPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-bold">
-                  Order History
+                  <Text>{"Order History"}</Text>
                 </h2>
 
                 <p className="mt-1 text-sm text-zinc-500">
-                  ประวัติการสั่งซื้อของคุณ
+                  <Text>{"ประวัติการสั่งซื้อของคุณ"}</Text>
                 </p>
               </div>
             </div>
@@ -139,18 +141,18 @@ export default async function AccountPage() {
             {orders.length === 0 ? (
   <div className="mt-8 rounded-xl border border-dashed border-zinc-800 px-6 py-12 text-center">
     <p className="text-zinc-400">
-      ยังไม่มีประวัติการสั่งซื้อ
+      <Text>{"ยังไม่มีประวัติการสั่งซื้อ"}</Text>
     </p>
 
     <p className="mt-2 text-sm text-zinc-600">
-      เมื่อคุณสั่งซื้อสินค้า รายการจะแสดงที่นี่
+      <Text>{"เมื่อคุณสั่งซื้อสินค้า รายการจะแสดงที่นี่"}</Text>
     </p>
 
     <Link
       href="/products"
       className="mt-6 inline-block rounded-lg bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700"
     >
-      เลือกซื้อสินค้า
+      <Text>{"เลือกซื้อสินค้า"}</Text>
     </Link>
   </div>
 ) : (
@@ -163,7 +165,7 @@ export default async function AccountPage() {
         <div className="flex flex-col gap-3 border-b border-zinc-800 pb-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs text-zinc-500">
-              Order ID
+              <Text>{"Order ID"}</Text>
             </p>
 
             <p className="mt-1 font-semibold text-white">
@@ -173,11 +175,11 @@ export default async function AccountPage() {
 
           <div className="sm:text-right">
             <p className="text-xs text-zinc-500">
-              สถานะ
+              <Text>{"สถานะ"}</Text>
             </p>
 
             <p className="mt-1 font-semibold text-red-500">
-              {order.status}
+              <Text>{order.status}</Text>
             </p>
           </div>
         </div>
@@ -194,7 +196,7 @@ export default async function AccountPage() {
                 </p>
 
                 <p className="mt-1 text-sm text-zinc-500">
-                  จำนวน {item.quantity}
+                  <Text>{"จำนวน"}</Text> {item.quantity}
                 </p>
               </div>
 
@@ -219,7 +221,7 @@ export default async function AccountPage() {
 
           <div className="sm:text-right">
             <p className="text-xs text-zinc-500">
-              ยอดรวม
+              <Text>{"ยอดรวม"}</Text>
             </p>
 
             <p className="mt-1 text-lg font-bold text-white">

@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -49,7 +51,7 @@ export default function AdminLogoutButton() {
         disabled:opacity-50
       "
     >
-      {loading ? "Logging out..." : "Logout"}
+      {loading ? <Text>{"Logging out..."}</Text> : <Text>{"Logout"}</Text>}
     </button>
   );
 }

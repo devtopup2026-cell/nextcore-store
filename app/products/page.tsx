@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import Header from "../components/layout/Header";
 import Footer from "../components/Footer";
@@ -180,7 +182,7 @@ const handlePageChange = (newPage: number) => {
 
           <h1 className="mb-6 text-3xl font-bold sm:mb-10 sm:text-5xl">
 
-            Products
+            <Text>{"Products"}</Text>
 
           </h1>
 
@@ -252,11 +254,11 @@ const handlePageChange = (newPage: number) => {
         <div className="text-5xl mb-5">🔍</div>
 
         <h2 className="text-2xl font-bold mb-3">
-          ไม่พบสินค้า
+          <Text>{"ไม่พบสินค้า"}</Text>
         </h2>
 
         <p className="text-zinc-400 mb-6">
-          ไม่พบสินค้าที่ตรงกับการค้นหาหรือตัวกรองของคุณ
+          <Text>{"ไม่พบสินค้าที่ตรงกับการค้นหาหรือตัวกรองของคุณ"}</Text>
         </p>
 
         <button
@@ -264,7 +266,7 @@ const handlePageChange = (newPage: number) => {
           onClick={handleClearFilters}
           className="rounded-lg bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700"
         >
-          Clear Filters
+          <Text>{"Clear Filters"}</Text>
         </button>
       </div>
     </div>
@@ -288,7 +290,7 @@ export default function ProductsPage() {
       fallback={
         <main className="min-h-screen bg-black text-white">
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
-            <p className="text-zinc-400">Loading products...</p>
+            <p className="text-zinc-400"><Text>{"Loading products..."}</Text></p>
           </div>
         </main>
       }

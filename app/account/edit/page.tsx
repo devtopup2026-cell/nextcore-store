@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -120,7 +122,7 @@ export default function EditAccountPage() {
   if (loading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#080808] text-white">
-        <p className="text-zinc-400">กำลังโหลดข้อมูล...</p>
+        <p className="text-zinc-400"><Text>{"กำลังโหลดข้อมูล..."}</Text></p>
       </main>
     );
   }
@@ -137,7 +139,7 @@ export default function EditAccountPage() {
             href="/account"
             className="mt-5 inline-block text-sm text-zinc-400 hover:text-white"
           >
-            ← กลับไป My Account
+            <Text>{"← กลับไป My Account"}</Text>
           </Link>
         </div>
       </main>
@@ -151,14 +153,14 @@ export default function EditAccountPage() {
           href="/account"
           className="text-sm text-zinc-400 transition hover:text-red-500"
         >
-          ← กลับไป My Account
+          <Text>{"← กลับไป My Account"}</Text>
         </Link>
 
         <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-6 sm:p-8">
-          <h1 className="text-2xl font-bold">Edit Profile</h1>
+          <h1 className="text-2xl font-bold"><Text>{"Edit Profile"}</Text></h1>
 
           <p className="mt-2 text-sm text-zinc-500">
-            แก้ไขข้อมูลสำหรับบัญชีและการจัดส่งสินค้า
+            <Text>{"แก้ไขข้อมูลสำหรับบัญชีและการจัดส่งสินค้า"}</Text>
           </p>
 
           <form
@@ -167,7 +169,7 @@ export default function EditAccountPage() {
           >
             <div>
               <label className="mb-2 block text-sm text-zinc-400">
-                Email
+                <Text>{"Email"}</Text>
               </label>
 
               <input
@@ -178,13 +180,13 @@ export default function EditAccountPage() {
               />
 
               <p className="mt-2 text-xs text-zinc-600">
-                Email ของบัญชียังไม่สามารถแก้ไขได้
+                <Text>{"Email ของบัญชียังไม่สามารถแก้ไขได้"}</Text>
               </p>
             </div>
 
             <div>
               <label className="mb-2 block text-sm text-zinc-400">
-                ชื่อ-นามสกุล
+                <Text>{"ชื่อ-นามสกุล"}</Text>
               </label>
 
               <input
@@ -198,7 +200,7 @@ export default function EditAccountPage() {
 
             <div>
               <label className="mb-2 block text-sm text-zinc-400">
-                เบอร์โทรศัพท์
+                <Text>{"เบอร์โทรศัพท์"}</Text>
               </label>
 
               <input
@@ -212,7 +214,7 @@ export default function EditAccountPage() {
 
             <div>
               <label className="mb-2 block text-sm text-zinc-400">
-                ที่อยู่
+                <Text>{"ที่อยู่"}</Text>
               </label>
 
               <textarea
@@ -226,7 +228,7 @@ export default function EditAccountPage() {
 
             <div>
               <label className="mb-2 block text-sm text-zinc-400">
-                รหัสไปรษณีย์
+                <Text>{"รหัสไปรษณีย์"}</Text>
               </label>
 
               <input
@@ -249,7 +251,7 @@ export default function EditAccountPage() {
                 href="/account"
                 className="rounded-lg border border-zinc-700 px-5 py-3 text-center text-sm font-medium text-white transition hover:border-zinc-500"
               >
-                ยกเลิก
+                <Text>{"ยกเลิก"}</Text>
               </Link>
 
               <button
@@ -257,7 +259,7 @@ export default function EditAccountPage() {
                 disabled={saving}
                 className="rounded-lg bg-red-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {saving ? "กำลังบันทึก..." : "บันทึกข้อมูล"}
+                {saving ? <Text>{"กำลังบันทึก..."}</Text> : <Text>{"บันทึกข้อมูล"}</Text>}
               </button>
             </div>
           </form>

@@ -1,4 +1,6 @@
 "use client";
+import { Text, LanguageToggle } from "@/app/i18n/language";
+
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -48,6 +50,7 @@ export default function AdminLoginPage() {
 
   return (
     <main className="min-h-screen bg-black text-white">
+      <div className="fixed right-4 top-4 z-40"><LanguageToggle /></div>
       <div className="flex min-h-screen items-center justify-center px-6">
 
         <div className="w-full max-w-md">
@@ -59,7 +62,7 @@ export default function AdminLoginPage() {
             </h1>
 
             <p className="mt-3 text-zinc-400">
-              Admin Control Center
+              <Text>{"Admin Control Center"}</Text>
             </p>
           </div>
 
@@ -67,11 +70,11 @@ export default function AdminLoginPage() {
           <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-8 shadow-2xl">
 
             <h2 className="mb-2 text-3xl font-bold">
-              Admin Login
+              <Text>{"Admin Login"}</Text>
             </h2>
 
             <p className="mb-8 text-sm text-zinc-400">
-              Sign in to manage NEXTCORE
+              <Text>{"Sign in to manage NEXTCORE"}</Text>
             </p>
 
             <form
@@ -82,7 +85,7 @@ export default function AdminLoginPage() {
               {/* Email */}
               <div>
                 <label className="mb-2 block text-sm font-bold">
-                  Email
+                  <Text>{"Email"}</Text>
                 </label>
 
                 <input
@@ -112,7 +115,7 @@ export default function AdminLoginPage() {
               {/* Password */}
               <div>
                 <label className="mb-2 block text-sm font-bold">
-                  Password
+                  <Text>{"Password"}</Text>
                 </label>
 
                 <input
@@ -164,15 +167,15 @@ export default function AdminLoginPage() {
                 "
               >
                 {loading
-                  ? "Signing in..."
-                  : "Sign In"}
+                  ? <Text>{"Signing in..."}</Text>
+                  : <Text>{"Sign In"}</Text>}
               </button>
 
             </form>
           </div>
 
           <p className="mt-6 text-center text-xs text-zinc-600">
-            NEXTCORE Administration System
+            <Text>{"NEXTCORE Administration System"}</Text>
           </p>
 
         </div>

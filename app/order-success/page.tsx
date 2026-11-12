@@ -1,3 +1,4 @@
+import { Text } from "@/app/i18n/language";
 import Link from "next/link";
 
 export default function OrderSuccess() {
@@ -10,19 +11,19 @@ export default function OrderSuccess() {
 
         <h1 className="text-6xl font-black text-green-500">
 
-          SUCCESS
+          <Text>{"SUCCESS"}</Text>
 
         </h1>
 
         <p className="mt-6 text-xl">
 
-          ระบบได้รับข้อมูลการชำระเงินของคุณแล้ว
+          <Text>{"ระบบได้รับข้อมูลการชำระเงินของคุณแล้ว"}</Text>
 
         </p>
 
         <p className="mt-3 text-zinc-400">
 
-          กรุณารอการตรวจสอบจากทีมงาน NEXTCORE
+          <Text>{"กรุณารอการตรวจสอบจากทีมงาน NEXTCORE"}</Text>
 
         </p>
 
@@ -38,7 +39,7 @@ export default function OrderSuccess() {
           font-bold
           "
         >
-          กลับหน้าแรก
+          <Text>{"กลับหน้าแรก"}</Text>
         </Link>
 
       </div>

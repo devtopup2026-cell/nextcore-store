@@ -1,4 +1,6 @@
 "use client";
+import { Text, useLanguage } from "@/app/i18n/language";
+
 
 import AdminNav from "@/app/components/admin/AdminNav";
 import { useEffect, useState } from "react";
@@ -28,6 +30,7 @@ type Order = {
 };
 
 export default function OrderManagerPage() {
+  const { translate } = useLanguage();
 const router = useRouter();
 
   const [orders, setOrders] = useState<Order[]>([]);
@@ -133,15 +136,15 @@ return (
           <div className="mb-10">
 
             <p className="mb-2 font-bold text-red-500">
-              SUPER ADMIN
+              <Text>{"SUPER ADMIN"}</Text>
             </p>
 
             <h1 className="text-5xl font-black">
-              Order Manager
+              <Text>{"Order Manager"}</Text>
             </h1>
 
             <p className="mt-3 text-zinc-400">
-              Search and edit customer and order information.
+              <Text>{"Search and edit customer and order information."}</Text>
             </p>
 
           </div>
@@ -152,7 +155,7 @@ return (
           <div className="rounded-3xl bg-zinc-900 p-8">
 
             <h2 className="mb-5 text-2xl font-bold">
-              Search Orders
+              <Text>{"Search Orders"}</Text>
             </h2>
 
             <input
@@ -161,7 +164,7 @@ return (
               onChange={(e) =>
                 setSearchTerm(e.target.value)
               }
-              placeholder="Search Order ID, Customer, Email or Phone..."
+              placeholder={translate("Search Order ID, Customer, Email or Phone...")}
               className="
                 w-full
                 rounded-xl
@@ -188,11 +191,11 @@ return (
             <div className="mb-6 flex items-center justify-between gap-4">
 
               <h2 className="text-3xl font-bold">
-                Orders
+                <Text>{"Orders"}</Text>
               </h2>
 
               <p className="text-zinc-400">
-                {filteredOrders.length} orders
+                {filteredOrders.length} <Text>{"orders"}</Text>
               </p>
 
             </div>
@@ -201,13 +204,13 @@ return (
             {loading ? (
 
               <p className="text-zinc-400">
-                กำลังโหลดรายการสั่งซื้อ...
+                <Text>{"กำลังโหลดรายการสั่งซื้อ..."}</Text>
               </p>
 
             ) : orders.length === 0 ? (
 
               <p className="text-zinc-400">
-                ยังไม่มีรายการสั่งซื้อ
+                <Text>{"ยังไม่มีรายการสั่งซื้อ"}</Text>
               </p>
 
             ) : filteredOrders.length === 0 ? (
@@ -215,11 +218,11 @@ return (
               <div className="rounded-2xl bg-zinc-800 p-8 text-center">
 
                 <p className="text-xl font-bold">
-                  ไม่พบรายการสั่งซื้อ
+                  <Text>{"ไม่พบรายการสั่งซื้อ"}</Text>
                 </p>
 
                 <p className="mt-2 text-zinc-400">
-                  ลองค้นหาด้วย Order ID ชื่อลูกค้า Email หรือเบอร์โทร
+                  <Text>{"ลองค้นหาด้วย Order ID ชื่อลูกค้า Email หรือเบอร์โทร"}</Text>
                 </p>
 
               </div>
@@ -267,21 +270,21 @@ return (
 
                           <p>
                             <span className="font-bold text-white">
-                              Phone :
+                              <Text>{"Phone :"}</Text>
                             </span>{" "}
                             {order.recipientPhone}
                           </p>
 
                           <p>
                             <span className="font-bold text-white">
-                              Total :
+                              <Text>{"Total :"}</Text>
                             </span>{" "}
                             ฿{order.total.toLocaleString()}
                           </p>
 
                           <p>
                             <span className="font-bold text-white">
-                              Status :
+                              <Text>{"Status :"}</Text>
                             </span>{" "}
 
                             <span
@@ -289,14 +292,14 @@ return (
                                 order.status
                               )}`}
                             >
-                              {order.status}
+                              <Text>{order.status}</Text>
                             </span>
 
                           </p>
 
                           <p>
                             <span className="font-bold text-white">
-                              Created :
+                              <Text>{"Created :"}</Text>
                             </span>{" "}
 
                             {new Date(
@@ -328,7 +331,7 @@ return (
                         hover:bg-red-500
                       "
                     >
-                      Edit Order
+                      <Text>{"Edit Order"}</Text>
                     </button>
 
                       </div>

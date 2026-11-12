@@ -1,3 +1,4 @@
+import { Text } from "@/app/i18n/language";
 const categories = [
   "PC Set",
   "Build PC",
@@ -16,7 +17,7 @@ export default function Categories() {
       <div className="max-w-7xl mx-auto px-6">
 
         <h2 className="text-4xl font-bold text-center mb-12">
-          Product Categories
+          <Text>{"Product Categories"}</Text>
         </h2>
 
         <div className="grid md:grid-cols-4 gap-6">
@@ -26,7 +27,7 @@ export default function Categories() {
               key={item}
               className="bg-zinc-900 p-8 rounded-2xl text-center hover:border-red-500 border border-transparent transition"
             >
-              <h3 className="font-bold">{item}</h3>
+              <h3 className="font-bold"><Text>{item}</Text></h3>
             </div>
           ))}
 

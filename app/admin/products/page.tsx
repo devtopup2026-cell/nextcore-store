@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -87,15 +89,15 @@ export default function AdminProductsPage() {
       <div className="mb-10 flex items-center justify-between">
           <div>
             <p className="font-bold text-red-500">
-              ADMIN
+              <Text>{"ADMIN"}</Text>
             </p>
 
             <h1 className="mt-2 text-4xl font-bold">
-              Product Management
+              <Text>{"Product Management"}</Text>
             </h1>
 
             <p className="mt-2 text-zinc-400">
-              Manage products, prices and stock.
+              <Text>{"Manage products, prices and stock."}</Text>
             </p>
           </div>
 
@@ -106,7 +108,7 @@ export default function AdminProductsPage() {
 
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-2xl font-bold">
-              Products
+              <Text>{"Products"}</Text>
             </h2>
 
             <button
@@ -114,13 +116,13 @@ export default function AdminProductsPage() {
               onClick={() => router.push("/admin/products/new")}
               className="rounded-xl bg-red-600 px-5 py-3 font-bold hover:bg-red-500"
             >
-              + Add Product
+              <Text>{"+ Add Product"}</Text>
             </button>
           </div>
 
           {loading && (
             <div className="py-12 text-center text-zinc-400">
-              Loading products...
+              <Text>{"Loading products..."}</Text>
             </div>
           )}
 
@@ -134,7 +136,7 @@ export default function AdminProductsPage() {
             !error &&
             products.length === 0 && (
               <div className="py-12 text-center text-zinc-500">
-                No products found.
+                <Text>{"No products found."}</Text>
               </div>
             )}
 
@@ -158,7 +160,7 @@ export default function AdminProductsPage() {
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-xs text-zinc-500">
-                    No Image
+                    <Text>{"No Image"}</Text>
                   </div>
                 )}
               </div>
@@ -172,7 +174,7 @@ export default function AdminProductsPage() {
                   ID: {product.id}
                 </p>
                 <p className={product.isActive ? "text-green-400" : "text-amber-400"}>
-                  {product.isActive ? "เปิดขาย" : "ปิดขาย"}
+                  <Text>{product.isActive ? "Available for sale" : "Sale paused"}</Text>
                 </p>
               </div>
 
@@ -181,7 +183,7 @@ export default function AdminProductsPage() {
                     <div className="flex items-center gap-10">
                       <div>
                         <p className="text-xs text-zinc-500">
-                          Price
+                          <Text>{"Price"}</Text>
                         </p>
 
                         <p className="font-bold">
@@ -191,7 +193,7 @@ export default function AdminProductsPage() {
 
                       <div>
                         <p className="text-xs text-zinc-500">
-                          Stock
+                          <Text>{"Stock"}</Text>
                         </p>
 
                         <p
@@ -223,7 +225,7 @@ export default function AdminProductsPage() {
                           hover:bg-zinc-600
                         "
                       >
-                        Edit
+                        <Text>{"Edit"}</Text>
                       </button>
 
                       <button
@@ -233,8 +235,8 @@ export default function AdminProductsPage() {
                         className="rounded-lg bg-zinc-700 px-4 py-2 font-bold hover:bg-zinc-600 disabled:opacity-50"
                       >
                         {updatingId === product.id
-                          ? "กำลังบันทึก…"
-                          : product.isActive ? "ปิดขาย" : "เปิดขาย"}
+                          ? <Text>{"กำลังบันทึก…"}</Text>
+                          : product.isActive ? <Text>{"ปิดขาย"}</Text> : <Text>{"เปิดขาย"}</Text>}
                       </button>
 
                     </div>

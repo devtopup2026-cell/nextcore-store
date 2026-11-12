@@ -1,9 +1,11 @@
 "use client";
 
+import { useLanguage } from "@/app/i18n/language";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function SearchBox() {
+export default function SearchBox({ onSearch }: { onSearch?: () => void }) {
+  const { translate } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
@@ -18,6 +20,7 @@ export default function SearchBox() {
     e.preventDefault();
 
     const keyword = search.trim();
+    onSearch?.();
 
     if (!keyword) {
       router.push("/products");
@@ -33,9 +36,10 @@ export default function SearchBox() {
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search products..."
+        placeholder={translate("Search products...")}
+        aria-label={translate("Search products...")}
         className="
-          w-80
+          w-full min-w-0
           bg-zinc-900
           border
           border-zinc-700

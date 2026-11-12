@@ -1,4 +1,6 @@
 "use client";
+import { Text, useLanguage } from "@/app/i18n/language";
+
 import { useEffect, useState } from "react";
 import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/Footer";
@@ -10,6 +12,7 @@ import { useCustomerStore } from "@/store/customer.store";
 import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
+  const { translate } = useLanguage();
   const id = generateOrderId();
   const { items, totalPrice } = useCart();
   const router = useRouter();
@@ -77,7 +80,7 @@ if (!mounted) return null;
         <div className="max-w-7xl mx-auto px-6 py-16">
 
           <h1 className="text-5xl font-black mb-10">
-            Checkout
+            <Text>{"Checkout"}</Text>
           </h1>
 
           <div className="grid lg:grid-cols-3 gap-10">
@@ -92,7 +95,7 @@ if (!mounted) return null;
               <div className="rounded-2xl bg-zinc-900 p-8">
 
                 <h2 className="text-2xl font-bold mb-6">
-                  Customer Information
+                  <Text>{"Customer Information"}</Text>
                 </h2>
 
                 <div className="grid md:grid-cols-2 gap-5">
@@ -100,20 +103,20 @@ if (!mounted) return null;
                   <input
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Full Name"
+                    placeholder={translate("Full Name")}
                     className="rounded-xl bg-zinc-800 p-4"
                   />
 
 <input
   value={phone}
   onChange={(e) => setPhone(e.target.value)}
-  placeholder="Phone Number"
+  placeholder={translate("Phone Number")}
   className="rounded-xl bg-zinc-800 p-4"
 />
 
 <input
   type="email"
-  placeholder="Email"
+  placeholder={translate("Email")}
   value={email}
   onChange={(e) => setEmail(e.target.value)}
   readOnly={isMember}
@@ -127,14 +130,14 @@ if (!mounted) return null;
 <input
   value={postalCode}
   onChange={(e) => setPostalCode(e.target.value)}
-  placeholder="Postal Code"
+  placeholder={translate("Postal Code")}
   className="rounded-xl bg-zinc-800 p-4"
 />
 
 <textarea
   value={address}
   onChange={(e) => setAddress(e.target.value)}
-  placeholder="Address"
+  placeholder={translate("Address")}
   className="mt-5 h-32 w-full rounded-xl bg-zinc-800 p-4"
 />
 
@@ -146,7 +149,7 @@ if (!mounted) return null;
               <div className="rounded-2xl bg-zinc-900 p-8">
 
                 <h2 className="text-2xl font-bold mb-6">
-                  Payment Method
+                  <Text>{"Payment Method"}</Text>
                 </h2>
 
                 <div className="space-y-4">
@@ -173,7 +176,7 @@ if (!mounted) return null;
                 onChange={() => setPaymentMethod("Bank Transfer")}
                 />
 
-                    Bank Transfer
+                    <Text>{"Bank Transfer"}</Text>
 
                   </label>
 
@@ -184,7 +187,7 @@ if (!mounted) return null;
                       disabled
                     />
 
-                    Credit Card (Coming Soon)
+                    <Text>{"Credit Card (Coming Soon)"}</Text>
 
                   </label>
 
@@ -201,7 +204,7 @@ if (!mounted) return null;
             <div className="rounded-2xl bg-zinc-900 p-8 h-fit">
 
               <h2 className="text-3xl font-bold">
-                Order Summary
+                <Text>{"Order Summary"}</Text>
               </h2>
 
 
@@ -239,9 +242,9 @@ if (!mounted) return null;
 
               <div className="flex justify-between">
 
-                <span>Shipping</span>
+                <span><Text>{"Shipping"}</Text></span>
 
-                <span>FREE</span>
+                <span><Text>{"FREE"}</Text></span>
 
               </div>
 
@@ -251,7 +254,7 @@ if (!mounted) return null;
 
               <div className="flex justify-between text-3xl font-black text-red-500">
 
-                <span>Total</span>
+                <span><Text>{"Total"}</Text></span>
 
                 <span>
                   ฿{totalPrice().toLocaleString()}
@@ -357,8 +360,8 @@ onClick={async () => {
               >
 
               {checkingStock
-  ? "Checking Stock..."
-  : "Proceed To Payment"}
+  ? <Text>{"Checking Stock..."}</Text>
+  : <Text>{"Proceed To Payment"}</Text>}
 
               </button>
 

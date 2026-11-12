@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import Link from "next/link";
 import Image from "next/image";
@@ -29,7 +31,7 @@ export default function ProductCard({ product }: Props) {
 
           {product.isNew && (
             <span className="absolute left-3 top-3 rounded-full bg-red-600 px-3 py-1 text-xs font-bold">
-              NEW
+              <Text>{"NEW"}</Text>
             </span>
           )}
 
@@ -66,7 +68,7 @@ export default function ProductCard({ product }: Props) {
           </p>
 
           <p className="mt-2 text-sm text-zinc-400">
-            เหลือ {product.stock} ชิ้น
+            <Text>{"เหลือ"}</Text> {product.stock} <Text>{"ชิ้น"}</Text>
           </p>
 
         <button
@@ -79,7 +81,7 @@ export default function ProductCard({ product }: Props) {
   }}
   className="mt-4 w-full rounded-xl bg-red-600 px-4 py-3 font-bold text-white transition hover:bg-red-500"
 >
-  Add To Cart
+  <Text>{"Add To Cart"}</Text>
 </button>
 
         </div>

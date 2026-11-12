@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import AdminNav from "@/app/components/admin/AdminNav";
 import { useParams, useRouter } from "next/navigation";
@@ -287,18 +289,18 @@ return (
         <div className="mx-auto max-w-5xl px-6 py-16">
 
           <p className="font-bold text-red-500">
-            SUPER ADMIN
+            <Text>{"SUPER ADMIN"}</Text>
           </p>
 
           <h1 className="mt-2 text-5xl font-black">
-            Edit Order
+            <Text>{"Edit Order"}</Text>
           </h1>
 
           {loading && (
             <div className="mt-10 rounded-3xl bg-zinc-900 p-8">
 
               <p className="text-zinc-400">
-                กำลังโหลดข้อมูล Order...
+                <Text>{"กำลังโหลดข้อมูล Order..."}</Text>
               </p>
 
             </div>
@@ -322,7 +324,7 @@ return (
               <div className="mt-10 rounded-3xl bg-zinc-900 p-8">
 
                 <p className="text-zinc-400">
-                  Order ID
+                  <Text>{"Order ID"}</Text>
                 </p>
 
                 <h2 className="mt-2 text-3xl font-black text-red-500">
@@ -339,14 +341,14 @@ return (
                 <div className="rounded-3xl bg-zinc-900 p-8">
 
                   <h2 className="mb-6 text-2xl font-bold">
-                    Customer Information
+                    <Text>{"Customer Information"}</Text>
                   </h2>
 
                   <div className="space-y-5">
 
                     <label className="block">
                       <span className="font-bold">
-                        Name
+                        <Text>{"Name"}</Text>
                       </span>
 
                       <input
@@ -360,7 +362,7 @@ return (
 
                     <label className="block">
                       <span className="font-bold">
-                        Email
+                        <Text>{"Email"}</Text>
                       </span>
 
                       <input
@@ -375,7 +377,7 @@ return (
 
                     <label className="block">
                       <span className="font-bold">
-                        Phone
+                        <Text>{"Phone"}</Text>
                       </span>
 
                       <input
@@ -389,7 +391,7 @@ return (
 
                     <label className="block">
                       <span className="font-bold">
-                        Address
+                        <Text>{"Address"}</Text>
                       </span>
 
                       <textarea
@@ -404,7 +406,7 @@ return (
 
                     <label className="block">
                       <span className="font-bold">
-                        Postal Code
+                        <Text>{"Postal Code"}</Text>
                       </span>
 
                       <input
@@ -425,7 +427,7 @@ return (
                 <div className="rounded-3xl bg-zinc-900 p-8">
 
                   <h2 className="mb-6 text-2xl font-bold">
-                    Order Information
+                    <Text>{"Order Information"}</Text>
                   </h2>
 
                   <div className="space-y-5">
@@ -433,7 +435,7 @@ return (
                     <label className="block">
 
                       <span className="font-bold">
-                        Total
+                        <Text>{"Total"}</Text>
                       </span>
 
                       <input
@@ -452,7 +454,7 @@ return (
                     <label className="block">
 
                       <span className="font-bold">
-                        Date
+                        <Text>{"Date"}</Text>
                       </span>
 
                       <input
@@ -469,7 +471,7 @@ return (
                     <label className="block">
 
                       <span className="font-bold">
-                        Time
+                        <Text>{"Time"}</Text>
                       </span>
 
                       <input
@@ -486,7 +488,7 @@ return (
                     <div className="rounded-xl bg-zinc-800 p-5">
 
                       <p className="text-sm text-zinc-400">
-                        Payment
+                        <Text>{"Payment"}</Text>
                       </p>
 
                       <p className="mt-1 font-bold">
@@ -499,11 +501,11 @@ return (
                     <div className="rounded-xl bg-zinc-800 p-5">
 
                       <p className="text-sm text-zinc-400">
-                        Status
+                        <Text>{"Status"}</Text>
                       </p>
 
                       <p className="mt-1 font-bold">
-                        {order.status}
+                        <Text>{order.status}</Text>
                       </p>
 
                     </div>
@@ -520,7 +522,7 @@ return (
               <div className="mt-6 rounded-3xl bg-zinc-900 p-8">
 
                 <h2 className="mb-6 text-2xl font-bold">
-                  Products
+                  <Text>{"Products"}</Text>
                 </h2>
 
                 <div className="space-y-3">
@@ -537,7 +539,7 @@ return (
                       </p>
 
                       <p className="text-zinc-400">
-                        Qty : {item.quantity}
+                        <Text>{"Qty :"}</Text> {item.quantity}
                       </p>
 
                       <p className="text-zinc-400">
@@ -574,8 +576,8 @@ return (
                   "
                 >
                   {saving
-                    ? "Saving..."
-                    : "Save Changes"}
+                    ? <Text>{"Saving..."}</Text>
+                    : <Text>{"Save Changes"}</Text>}
                 </button>
 
 
@@ -597,7 +599,7 @@ return (
                     hover:bg-zinc-600
                   "
                 >
-                  Cancel
+                  <Text>{"Cancel"}</Text>
                 </button>
 
               </div>

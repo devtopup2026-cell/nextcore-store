@@ -1,4 +1,6 @@
 "use client";
+import { Text, useLanguage } from "@/app/i18n/language";
+
 
 import {
   ChangeEvent,
@@ -34,6 +36,7 @@ type ProductForm = {
 };
 
 export default function EditProductPage() {
+  const { translate } = useLanguage();
   const params = useParams();
   const router = useRouter();
 
@@ -365,22 +368,22 @@ return (
       <AdminNav />
 
       <p className="font-bold text-red-500">
-        ADMIN
+        <Text>{"ADMIN"}</Text>
       </p>
 
         <h1 className="mt-2 text-4xl font-bold">
-          Edit Product
+          <Text>{"Edit Product"}</Text>
         </h1>
 
         <p className="mt-2 text-zinc-400">
-          Product ID: {productId}
+          <Text>{"Product ID:"}</Text> {productId}
         </p>
 
 
         {loading ? (
 
           <div className="mt-10 rounded-3xl bg-zinc-900 p-8 text-zinc-400">
-            Loading product...
+            <Text>{"Loading product..."}</Text>
           </div>
 
         ) : error && !form.name ? (
@@ -397,7 +400,7 @@ return (
           >
 
             <h2 className="mb-8 text-2xl font-bold">
-              Product Information
+              <Text>{"Product Information"}</Text>
             </h2>
 
 
@@ -406,7 +409,7 @@ return (
               <label className="block">
 
                 <span className="font-bold">
-                  Product Name
+                  <Text>{"Product Name"}</Text>
                 </span>
 
                 <input
@@ -439,7 +442,7 @@ return (
 
               <label className="block">
   <span className="font-bold">
-    Brand
+    <Text>{"Brand"}</Text>
   </span>
 
   <input
@@ -454,7 +457,7 @@ return (
 
 <label className="block">
   <span className="font-bold">
-    Category
+    <Text>{"Category"}</Text>
   </span>
 
   <select
@@ -470,7 +473,7 @@ return (
     required
   >
     <option value="">
-      Select Category
+      <Text>{"Select Category"}</Text>
     </option>
 
     <option value="CPU">CPU</option>
@@ -479,13 +482,13 @@ return (
     <option value="SSD">SSD</option>
     <option value="HDD">HDD</option>
     <option value="PSU">PSU</option>
-    <option value="Monitor">Monitor</option>
-    <option value="Keyboard">Keyboard</option>
-    <option value="Mouse">Mouse</option>
+    <option value="Monitor"><Text>{"Monitor"}</Text></option>
+    <option value="Keyboard"><Text>{"Keyboard"}</Text></option>
+    <option value="Mouse"><Text>{"Mouse"}</Text></option>
     <option value="Gaming Gear">
-      Gaming Gear
+      <Text>{"Gaming Gear"}</Text>
     </option>
-    <option value="PC Set">PC Set</option>
+    <option value="PC Set"><Text>{"PC Set"}</Text></option>
   </select>
 </label>
 
@@ -493,7 +496,7 @@ return (
               <label className="block">
 
                 <span className="font-bold">
-                  Price
+                  <Text>{"Price"}</Text>
                 </span>
 
                 <input
@@ -512,7 +515,7 @@ return (
 
               <label className="block">
   <span className="font-bold">
-    Compare Price
+    <Text>{"Compare Price"}</Text>
   </span>
 
   <input
@@ -531,7 +534,7 @@ return (
               <label className="block">
 
                 <span className="font-bold">
-                  Stock
+                  <Text>{"Stock"}</Text>
                 </span>
 
                 <input
@@ -564,7 +567,7 @@ return (
     />
 
     <span className="font-bold">
-      Featured / Best Seller
+      <Text>{"Featured / Best Seller"}</Text>
     </span>
   </label>
 
@@ -582,7 +585,7 @@ return (
     />
 
     <span className="font-bold">
-      New Product
+      <Text>{"New Product"}</Text>
     </span>
   </label>
 
@@ -592,7 +595,7 @@ return (
               <div className="md:col-span-2">
 
                 <span className="font-bold">
-                  Product Image
+                  <Text>{"Product Image"}</Text>
                 </span>
 
                 <input
@@ -612,19 +615,19 @@ return (
                 />
 
                 <p className="mt-2 text-sm text-zinc-500">
-                  JPG, PNG or WEBP — maximum 5 MB
+                  <Text>{"JPG, PNG or WEBP — maximum 5 MB"}</Text>
                 </p>
 
                 {imagePreview && (
                   <div className="mt-4">
 
                     <p className="mb-2 text-sm text-zinc-400">
-                      Current / New Image Preview
+                      <Text>{"Current / New Image Preview"}</Text>
                     </p>
 
                     <img
                       src={imagePreview}
-                      alt="Product preview"
+                      alt={translate("Product preview")}
                       className="
                         h-64
                         w-64
@@ -646,7 +649,7 @@ return (
               <label className="block md:col-span-2">
 
                 <span className="font-bold">
-                  Description
+                  <Text>{"Description"}</Text>
                 </span>
 
                 <textarea
@@ -687,10 +690,10 @@ return (
                 "
               >
                 {uploading
-                    ? "Uploading image..."
+                    ? <Text>{"Uploading image..."}</Text>
                     : saving
-                    ? "Saving..."
-                    : "Save Changes"}
+                    ? <Text>{"Saving..."}</Text>
+                    : <Text>{"Save Changes"}</Text>}
               </button>
 
 
@@ -710,7 +713,7 @@ return (
                   hover:bg-zinc-600
                 "
               >
-                Cancel
+                <Text>{"Cancel"}</Text>
               </button>
 
               <button
@@ -719,7 +722,7 @@ return (
                 onClick={handleDelete}
                 className="rounded-xl border border-red-700 px-7 py-4 font-bold text-red-400 hover:bg-red-950 disabled:opacity-50"
               >
-                {deleting ? "กำลังลบ…" : "ลบสินค้า"}
+                {deleting ? <Text>{"กำลังลบ…"}</Text> : <Text>{"ลบสินค้า"}</Text>}
               </button>
 
             </div>

@@ -1,4 +1,6 @@
 "use client";
+import { Text } from "@/app/i18n/language";
+
 
 import { useEffect, useState } from "react";
 
@@ -57,12 +59,12 @@ export default function BestSeller() {
       <div className="max-w-7xl mx-auto px-6">
 
         <h2 className="text-5xl font-bold text-center mb-16">
-          Best Seller
+          <Text>{"Best Seller"}</Text>
         </h2>
 
         {loading && (
           <p className="text-center text-zinc-400">
-            Loading products...
+            <Text>{"Loading products..."}</Text>
           </p>
         )}
 
@@ -74,7 +76,7 @@ export default function BestSeller() {
 
         {!loading && !error && products.length === 0 && (
           <p className="text-center text-zinc-500">
-            No Best Seller products.
+            <Text>{"No Best Seller products."}</Text>
           </p>
         )}
 

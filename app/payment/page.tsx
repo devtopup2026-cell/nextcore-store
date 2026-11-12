@@ -1,4 +1,6 @@
 "use client";
+import { Text, useLanguage } from "@/app/i18n/language";
+
 
 import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/Footer";
@@ -11,6 +13,7 @@ import { generateOrderId } from "@/lib/generateOrderId";
 import type { Order } from "@/types/order";
 
 export default function PaymentPage() {
+  const { translate } = useLanguage();
   const [preview, setPreview] = useState<string | null>(null);
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
@@ -123,7 +126,7 @@ const handleConfirmPayment = async () => {
         <div className="max-w-5xl mx-auto px-6 py-16">
 
           <h1 className="text-5xl font-black mb-10">
-            Payment
+            <Text>{"Payment"}</Text>
           </h1>
 
 
@@ -163,7 +166,7 @@ const handleConfirmPayment = async () => {
               <div className="mt-8 rounded-xl bg-red-600 px-8 py-4">
 
                 <p className="text-lg">
-                  Amount
+                  <Text>{"Amount"}</Text>
                 </p>
 
                 <h3 className="text-4xl font-black">
@@ -178,49 +181,49 @@ const handleConfirmPayment = async () => {
  <div className="mt-8 w-full rounded-2xl bg-zinc-800 p-6">
 
   <h2 className="mb-4 text-2xl font-bold">
-    Customer Information
+    <Text>{"Customer Information"}</Text>
   </h2>
 
   <div className="space-y-2 text-zinc-300">
 
     <p>
       <span className="font-bold text-white">
-        Name :
+        <Text>{"Name :"}</Text>
       </span>{" "}
       {fullName}
     </p>
 
     <p>
       <span className="font-bold text-white">
-        Phone :
+        <Text>{"Phone :"}</Text>
       </span>{" "}
       {phone}
     </p>
 
     <p>
       <span className="font-bold text-white">
-        Email :
+        <Text>{"Email :"}</Text>
       </span>{" "}
       {email}
     </p>
 
     <p>
       <span className="font-bold text-white">
-        Postal Code :
+        <Text>{"Postal Code :"}</Text>
       </span>{" "}
       {postalCode}
     </p>
 
     <p>
       <span className="font-bold text-white">
-        Payment :
+        <Text>{"Payment :"}</Text>
       </span>{" "}
       {paymentMethod}
     </p>
 
     <p>
       <span className="font-bold text-white">
-        Address :
+        <Text>{"Address :"}</Text>
       </span>{" "}
       {address}
     </p>
@@ -234,7 +237,7 @@ const handleConfirmPayment = async () => {
             <div className="mt-12">
 
               <h2 className="text-2xl font-bold">
-                Upload Payment Slip
+                <Text>{"Upload Payment Slip"}</Text>
               </h2>
 
 
@@ -285,12 +288,12 @@ const handleConfirmPayment = async () => {
                 <div className="mt-8">
 
                   <h3 className="mb-4 text-xl font-bold">
-                    Payment Slip Preview
+                    <Text>{"Payment Slip Preview"}</Text>
                   </h3>
 
                   <img
                     src={preview}
-                    alt="Slip Preview"
+                    alt={translate("Slip Preview")}
                     className="
                     rounded-xl
                     border
@@ -322,8 +325,8 @@ const handleConfirmPayment = async () => {
   "
 >
   {submitting
-  ? "Processing..."
-  : "Confirm Payment"}
+  ? <Text>{"Processing..."}</Text>
+  : <Text>{"Confirm Payment"}</Text>}
 </button>
 
             </div>

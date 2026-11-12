@@ -1,3 +1,4 @@
+import { Text } from "@/app/i18n/language";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -16,28 +17,26 @@ export default function Hero() {
           <div>
 
             <span className="inline-flex items-center rounded-full border border-red-600 px-4 py-1 text-red-500 text-sm mb-6">
-              🔥 Gaming • Office • Enterprise
+              <Text>{"🔥 Gaming • Office • Enterprise"}</Text>
             </span>
 
             <h1 className="text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
 
               <span className="text-white">
-                BUILD YOUR
+                <Text>{"BUILD YOUR"}</Text>
               </span>
 
               <br />
 
               <span className="text-red-500">
-                DREAM PC
+                <Text>{"DREAM PC"}</Text>
               </span>
 
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-7 text-zinc-400 sm:mt-8 sm:text-lg sm:leading-8">
 
-              NEXTCORE จำหน่ายคอมพิวเตอร์ อุปกรณ์ Gaming
-              และประกอบคอมตามงบประมาณ
-              พร้อมรับประกันและบริการหลังการขาย
+              <Text>{"NEXTCORE จำหน่ายคอมพิวเตอร์ อุปกรณ์ Gaming และประกอบคอมตามงบประมาณ พร้อมรับประกันและบริการหลังการขาย"}</Text>
 
             </p>
 
@@ -47,14 +46,14 @@ export default function Hero() {
     href="/products"
     className="inline-flex h-14 items-center justify-center rounded-xl bg-red-600 px-8 text-white font-bold shadow-lg shadow-red-600/30 transition-all duration-300 hover:-translate-y-1 hover:bg-red-500 hover:shadow-red-500/50"
   >
-    🛒 Shop Now
+    <Text>{"🛒 Shop Now"}</Text>
   </Link>
 
   <Link
     href="/buildpc"
     className="inline-flex h-14 items-center justify-center rounded-xl border-2 border-red-600 bg-transparent px-8 text-white font-bold shadow-lg shadow-red-600/20 transition-all duration-300 hover:-translate-y-1 hover:bg-red-600 hover:text-white hover:shadow-red-600/50"
   >
-    🖥️ Build PC
+    <Text>{"🖥️ Build PC"}</Text>
   </Link>
 
 </div>
@@ -68,7 +67,7 @@ export default function Hero() {
                 </h3>
 
                 <p className="mt-2 text-sm text-zinc-400 sm:text-base lg:text-lg">
-                  Happy Customers
+                  <Text>{"Happy Customers"}</Text>
                 </p>
 
               </div>
@@ -80,7 +79,7 @@ export default function Hero() {
                 </h3>
 
                 <p className="mt-2 text-sm text-zinc-400 sm:text-base lg:text-lg">
-                  PC Builds
+                  <Text>{"PC Builds"}</Text>
                 </p>
 
               </div>
@@ -92,7 +91,7 @@ export default function Hero() {
                 </h3>
 
                 <p className="mt-2 text-sm text-zinc-400 sm:text-base lg:text-lg">
-                  Warranty
+                  <Text>{"Warranty"}</Text>
                 </p>
 
               </div>

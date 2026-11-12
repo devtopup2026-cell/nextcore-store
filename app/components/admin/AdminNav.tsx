@@ -1,4 +1,6 @@
 "use client";
+import { Text, LanguageToggle } from "@/app/i18n/language";
+
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -56,7 +58,7 @@ const isSuperAdmin = role === "SUPER_ADMIN";
         onClick={() => router.push("/admin")}
         className={buttonClass(pathname === "/admin")}
       >
-        Dashboard
+        <Text>{"Dashboard"}</Text>
       </button>
 
       <button
@@ -66,7 +68,7 @@ const isSuperAdmin = role === "SUPER_ADMIN";
           pathname.startsWith("/admin/products")
         )}
       >
-        Products
+        <Text>{"Products"}</Text>
       </button>
 
         {isSuperAdmin && (
@@ -77,7 +79,7 @@ const isSuperAdmin = role === "SUPER_ADMIN";
       pathname.startsWith("/admin/order-manager")
     )}
   >
-    Order Manager
+    <Text>{"Order Manager"}</Text>
   </button>
 )}
 
@@ -87,8 +89,9 @@ const isSuperAdmin = role === "SUPER_ADMIN";
         onClick={() => router.push("/")}
         className={buttonClass(false)}
       >
-        View Store
+        <Text>{"View Store"}</Text>
       </button>
+      <LanguageToggle />
     </div>
   );
 }
