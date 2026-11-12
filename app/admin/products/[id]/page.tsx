@@ -41,6 +41,8 @@ export default function EditProductPage() {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [productName, setProductName] = useState("");
   const [error, setError] = useState("");
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -128,6 +130,7 @@ setForm({
   isNew: Boolean(data.product.isNew),
 });
 
+setProductName(data.product.name);
 setImagePreview(data.product.image);
 
       } catch (error) {
@@ -326,6 +329,31 @@ body: JSON.stringify({
 
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!productName || saving || uploading || deleting) return;
+
+    if (!window.confirm(`ลบสินค้า "${productName}" ถาวรใช่หรือไม่?`)) return;
+
+    setDeleting(true);
+    setError("");
+
+    try {
+      const response = await fetch(`/api/admin/products/${productId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || "ไม่สามารถลบสินค้าได้");
+      }
+
+      router.replace("/admin/products");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "ไม่สามารถลบสินค้าได้");
+      setDeleting(false);
     }
   };
 
@@ -645,7 +673,7 @@ return (
 
               <button
                 type="submit"
-                disabled={saving || uploading}
+                disabled={saving || uploading || deleting}
                 className="
                   rounded-xl
                   bg-red-600
@@ -668,7 +696,7 @@ return (
 
               <button
                 type="button"
-                disabled={saving}
+                disabled={saving || deleting}
                 onClick={() =>
                   router.push("/admin/products")
                 }
@@ -683,6 +711,15 @@ return (
                 "
               >
                 Cancel
+              </button>
+
+              <button
+                type="button"
+                disabled={!productName || saving || uploading || deleting}
+                onClick={handleDelete}
+                className="rounded-xl border border-red-700 px-7 py-4 font-bold text-red-400 hover:bg-red-950 disabled:opacity-50"
+              >
+                {deleting ? "กำลังลบ…" : "ลบสินค้า"}
               </button>
 
             </div>
