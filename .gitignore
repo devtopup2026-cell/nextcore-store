@@ -43,6 +43,17 @@ next-env.d.ts
 /lib/generated/prisma
 
 # local AI tool files
-/.agents/
+/.agents/*
+!/.agents/skills/
+/.agents/skills/*
+!/.agents/skills/nextcore-catalog/
+/.agents/skills/nextcore-catalog/*
+!/.agents/skills/nextcore-catalog/SKILL.md
+!/.agents/skills/nextcore-order-payment/
+/.agents/skills/nextcore-order-payment/*
+!/.agents/skills/nextcore-order-payment/SKILL.md
+!/.agents/skills/nextcore-release-check/
+/.agents/skills/nextcore-release-check/*
+!/.agents/skills/nextcore-release-check/SKILL.md
 /.claude/
 /.windsurf/
