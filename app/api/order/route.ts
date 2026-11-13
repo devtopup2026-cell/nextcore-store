@@ -2,12 +2,9 @@ import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { deferredSlipOrder } from "@/lib/payment-slip";
 import { prisma } from "@/lib/prisma";
+import { updateOrderStatus } from "@/lib/order-status";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getCustomerSession } from "@/lib/customer-session";
-
-type TransactionClient = Parameters<
-  Parameters<typeof prisma.$transaction>[0]
->[0];
 
 // ======================================================
 // POST - Create Order
@@ -23,7 +20,6 @@ const {
   id,
   customer,
   items,
-  total,
   paymentMethod,
   paymentSlip,
 } = body;
@@ -462,167 +458,7 @@ if (!session) {
     // Transaction
     // ======================================================
 
-const result = await prisma.$transaction(
-  async (tx: TransactionClient) => {
-
-      // หา Order พร้อมรายการสินค้า
-      const existingOrder = await tx.order.findUnique({
-        where: {
-          id,
-        },
-
-        include: {
-          items: true,
-        },
-        }
-);
-
-
-      if (!existingOrder) {
-        throw new Error("ORDER_NOT_FOUND");
-      }
-
-
-
-      // ======================================================
-      // ตรวจสอบการเปลี่ยน Order Status
-      // ======================================================
-
-      const allowedTransitions: Record<string, string[]> = {
-      "Pending Payment": ["Paid", "Rejected"],
-        "Paid": ["Shipping", "Rejected"],
-        "Shipping": ["Completed"],
-        "Completed": [],
-        "Rejected": [],
-      };
-
-      const currentStatus = existingOrder.status;
-
-      if (
-        status !== currentStatus &&
-        !allowedTransitions[currentStatus]?.includes(status)
-      ) {
-        throw new Error(
-          `INVALID_STATUS_TRANSITION:${currentStatus}:${status}`
-        );
-      }
-
-      // ======================================================
-      // ป้องกันการ Approve ซ้ำ
-      // ======================================================
-
-      if (
-        status === "Paid" &&
-        existingOrder.status === "Paid"
-      ) {
-        return await tx.order.findUnique({
-          where: {
-            id,
-          },
-
-          include: {
-            customer: true,
-
-            items: {
-              include: {
-                product: true,
-              },
-            },
-          },
-        });
-      }
-
-
-      // ======================================================
-      // Pending Payment → Paid
-      // ตัด Stock
-      // ======================================================
-
-      if (
-        existingOrder.status === "Pending Payment" &&
-        status === "Paid"
-      ) {
-
-        for (const item of existingOrder.items) {
-
-          // ลด Stock เฉพาะเมื่อ Stock เพียงพอ
-          const updatedProduct =
-            await tx.product.updateMany({
-              where: {
-                id: item.productId,
-
-                stock: {
-                  gte: item.quantity,
-                },
-              },
-
-              data: {
-                stock: {
-                  decrement: item.quantity,
-                },
-              },
-            });
-
-
-          // Stock ไม่พอ
-          if (updatedProduct.count === 0) {
-            throw new Error(
-              `INSUFFICIENT_STOCK:${item.productId}`
-            );
-          }
-        }
-      }
-
-      // ======================================================
-// Paid → Rejected
-// คืน Stock
-// ======================================================
-
-if (
-  existingOrder.status === "Paid" &&
-  status === "Rejected"
-) {
-  for (const item of existingOrder.items) {
-    await tx.product.update({
-      where: {
-        id: item.productId,
-      },
-
-      data: {
-        stock: {
-          increment: item.quantity,
-        },
-      },
-    });
-  }
-}
-
-
-      // ======================================================
-      // Update Order Status
-      // ======================================================
-
-      return await tx.order.update({
-        where: {
-          id,
-        },
-
-        data: {
-          status,
-        },
-
-        include: {
-          customer: true,
-
-          items: {
-            include: {
-              product: true,
-            },
-          },
-        },
-      });
-    });
-
+    const result = await updateOrderStatus(prisma, id, status);
 
     return NextResponse.json({
       success: true,
