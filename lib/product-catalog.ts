@@ -1,3 +1,4 @@
+import { lockCatalogReferences, hasRemovedCatalogReference } from "./catalog-taxonomy";
 import { Prisma, type PrismaClient } from "@prisma/client";
 import { isProductCategoryAllowed, isProductSlugAllowed, productIdSchema, productInput, productStockSchema } from "./product-input";
 
@@ -11,26 +12,31 @@ export async function createCatalogProduct(prisma: PrismaClient, body: unknown) 
     if (!input.success) {
       return reply({ success: false, error: input.error.issues[0].path.join(".") + ": " + input.error.issues[0].message }, { status: 400 });
     }
-    if (!isProductCategoryAllowed(input.data.category)) {
-      return reply({ success: false, error: "Invalid category" }, { status: 400 });
-    }
-
-    if (!isProductSlugAllowed(input.data.slug)) {
-      return reply({ success: false, error: "Invalid slug" }, { status: 400 });
-    }
-
-    const product = await prisma.product.create({ data: input.data });
-
-    return reply(
-      {
-        success: true,
-        product,
-      },
-      {
-        status: 201,
+    return await prisma.$transaction(async (tx) => {
+      await lockCatalogReferences(tx);
+      if (await hasRemovedCatalogReference(tx, input.data.category, input.data.brand)) {
+        return reply({ success: false, error: "Category or brand was removed" }, { status: 409 });
       }
-    );
+      if (!isProductCategoryAllowed(input.data.category) && !await categoryExists(tx, input.data.category)) {
+        return reply({ success: false, error: "Invalid category" }, { status: 400 });
+      }
 
+      if (!isProductSlugAllowed(input.data.slug)) {
+        return reply({ success: false, error: "Invalid slug" }, { status: 400 });
+      }
+
+      const product = await tx.product.create({ data: input.data });
+
+      return reply(
+        {
+          success: true,
+          product,
+        },
+        {
+          status: 201,
+        }
+      );
+    }, { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
       return reply({ success: false, error: "Product ID or slug already exists" }, { status: 409 });
@@ -79,31 +85,36 @@ export async function updateCatalogProduct(prisma: PrismaClient, productId: numb
       return reply({ success: false, error: input.error.issues[0].path.join(".") + ": " + input.error.issues[0].message }, { status: 400 });
     }
 
-    const existing = await prisma.product.findUnique({
-      where: { id: productId },
-      select: { category: true, slug: true },
-    });
-    if (!existing) return reply({ success: false, error: "Product not found" }, { status: 404 });
-    if (!isProductCategoryAllowed(input.data.category, existing.category)) {
-      return reply({ success: false, error: "Invalid category" }, { status: 400 });
-    }
+    return await prisma.$transaction(async (tx) => {
+      await lockCatalogReferences(tx);
+      if (await hasRemovedCatalogReference(tx, input.data.category, input.data.brand)) {
+        return reply({ success: false, error: "Category or brand was removed" }, { status: 409 });
+      }
+      const existing = await tx.product.findUnique({
+        where: { id: productId },
+        select: { category: true, slug: true },
+      });
+      if (!existing) return reply({ success: false, error: "Product not found" }, { status: 404 });
+      if (!isProductCategoryAllowed(input.data.category, existing.category) && !await categoryExists(tx, input.data.category)) {
+        return reply({ success: false, error: "Invalid category" }, { status: 400 });
+      }
 
-    if (!isProductSlugAllowed(input.data.slug, existing.slug)) {
-      return reply({ success: false, error: "Invalid slug" }, { status: 400 });
-    }
+      if (!isProductSlugAllowed(input.data.slug, existing.slug)) {
+        return reply({ success: false, error: "Invalid slug" }, { status: 400 });
+      }
 
-    const { expectedStock, stock, ...details } = input.data;
-    const changesStock = expectedStock === undefined || expectedStock !== stock;
-    const product = await prisma.product.update({
-      where: { id: productId, ...(changesStock && expectedStock !== undefined ? { stock: expectedStock } : {}) },
-      data: { ...details, ...(changesStock ? { stock } : {}) },
-    });
+      const { expectedStock, stock, ...details } = input.data;
+      const changesStock = expectedStock === undefined || expectedStock !== stock;
+      const product = await tx.product.update({
+        where: { id: productId, ...(changesStock && expectedStock !== undefined ? { stock: expectedStock } : {}) },
+        data: { ...details, ...(changesStock ? { stock } : {}) },
+      });
 
-    return reply({
-      success: true,
-      product,
-    });
-
+      return reply({
+        success: true,
+        product,
+      });
+    }, { isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") return reply({ success: false, error: "Slug already exists" }, { status: 409 });
@@ -126,4 +137,9 @@ export async function updateCatalogProduct(prisma: PrismaClient, productId: numb
       }
     );
   }
+}
+
+async function categoryExists(prisma: Prisma.TransactionClient, key: string) {
+  const rows = await prisma.$queryRaw<{ key: string }[]>`SELECT "key" FROM "CatalogCategory" WHERE "key" = ${key}`;
+  return rows.length > 0;
 }

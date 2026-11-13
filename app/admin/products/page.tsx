@@ -1,5 +1,7 @@
 "use client";
 import { normalizeProductCategory, productCategoryLabel } from "@/lib/product-categories";
+import Link from "next/link";
+import { useCatalogTaxonomy } from "@/lib/use-catalog-taxonomy";
 import { Text, useLanguage } from "@/app/i18n/language";
 
 
@@ -22,6 +24,7 @@ type Product = {
 
 export default function AdminProductsPage() {
   const router = useRouter();
+  const taxonomy = useCatalogTaxonomy(true);
   const { translate } = useLanguage();
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
@@ -100,6 +103,7 @@ export default function AdminProductsPage() {
   <div className="mx-auto max-w-7xl px-6 py-16">
 
     <AdminNav />
+    <Link href="/admin/products/taxonomy" className="mb-5 inline-block text-red-400">จัดการหมวดหมู่และแบรนด์</Link>
 
       <div className="mb-10 flex items-center justify-between">
           <div>
@@ -138,11 +142,11 @@ export default function AdminProductsPage() {
           <div className="mb-6 grid gap-3 sm:grid-cols-3">
             <select aria-label={translate("Brand")} value={brand} onChange={(event) => setBrand(event.target.value)} className="rounded-lg bg-zinc-800 p-3">
               <option value="">{translate("All brands")}</option>
-              {brands.map((item) => <option key={item}>{item}</option>)}
+              {brands.map((item) => <option key={item} value={item}>{taxonomy?.brands.find(({ key }) => key.trim().toLowerCase() === item.trim().toLowerCase())?.name ?? item}</option>)}
             </select>
             <select aria-label={translate("Category")} value={category} onChange={(event) => setCategory(event.target.value)} className="rounded-lg bg-zinc-800 p-3">
               <option value="">{translate("All categories")}</option>
-              {categories.map((item) => <option key={item} value={item}>{translate(productCategoryLabel(item))}</option>)}
+              {categories.map((item) => <option key={item} value={item}>{translate(taxonomy?.categories.find(({ key }) => key === item)?.name ?? productCategoryLabel(item))}</option>)}
             </select>
             <select aria-label={translate("Status")} value={status} onChange={(event) => setStatus(event.target.value)} className="rounded-lg bg-zinc-800 p-3">
               <option value="">{translate("All statuses")}</option>

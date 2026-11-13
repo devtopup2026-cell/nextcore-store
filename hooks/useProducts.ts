@@ -15,6 +15,7 @@ export default function useProducts() {
   const [error, setError] = useState("");
 
   const [search, setSearch] = useState("");
+  const [brandFilter, setBrandFilter] = useState("");
   const [category, setCategory] = useState("All");
   const [sort, setSort] = useState("Newest");
 
@@ -85,6 +86,8 @@ if (keyword) {
       result = result.filter(product => normalizeProductCategory(product.category) === category);
     }
 
+    if (brandFilter) result = result.filter((product) => product.brand.trim().toLowerCase() === brandFilter);
+
     // Sort
     switch (sort) {
 
@@ -107,9 +110,10 @@ if (keyword) {
 
     return result;
 
-  }, [products, search, category, sort]);
+  }, [products, search, category, sort, brandFilter]);
 
   return {
+    products, brandFilter, setBrandFilter,
     search,
     setSearch,
 

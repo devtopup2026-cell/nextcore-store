@@ -1,5 +1,6 @@
 "use client";
 import { normalizeProductCategory } from "@/lib/product-categories";
+import { useCatalogTaxonomy } from "@/lib/use-catalog-taxonomy";
 import ProductCategoryOptions from "@/app/components/admin/ProductCategoryOptions";
 import { Text, useLanguage } from "@/app/i18n/language";
 
@@ -39,6 +40,7 @@ type ProductForm = {
 };
 
 export default function EditProductPage() {
+  const taxonomy = useCatalogTaxonomy(true);
   const { translate } = useLanguage();
   const params = useParams();
   const router = useRouter();
@@ -457,11 +459,15 @@ return (
 
   <input
     name="brand"
+                list="catalog-brands"
     value={form.brand}
     onChange={handleChange}
     className={inputClass}
     required
   />
+              <datalist id="catalog-brands">
+                {taxonomy?.brands.map(({ key, name }) => <option key={key} value={key}>{name}</option>)}
+              </datalist>
 </label>
 
 

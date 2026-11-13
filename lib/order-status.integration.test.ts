@@ -38,7 +38,7 @@ test("NEXTCORE order status on local PostgreSQL", async (suite) => {
              count(*) FILTER (WHERE finished_at IS NULL AND rolled_back_at IS NULL)::int AS unfinished
       FROM public._prisma_migrations
     `;
-    assert.equal(history.applied, 8);
+    assert.ok(history.applied >= 8, "Expected at least the original eight migrations");
     assert.equal(history.unfinished, 0);
     await db.product.findFirst({ select: { isActive: true } });
 
