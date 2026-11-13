@@ -1,4 +1,5 @@
 "use client";
+import { useCatalogTaxonomy } from "@/lib/use-catalog-taxonomy";
 import ProductCategoryOptions from "@/app/components/admin/ProductCategoryOptions";
 import { Text, useLanguage } from "@/app/i18n/language";
 
@@ -13,6 +14,7 @@ type ProductForm = {
   name: string;
   slug: string;
   brand: string;
+  isActive: boolean;
   category: string;
   description: string;
   price: string;
@@ -24,6 +26,7 @@ type ProductForm = {
 };
 
 export default function NewProductPage() {
+  const taxonomy = useCatalogTaxonomy(true);
   const { translate } = useLanguage();
   const router = useRouter();
 
@@ -67,7 +70,8 @@ async function uploadProductImage() {
 
     const data = await res.json();
 
-    if (!res.ok || !data.success) {
+    if (!res.ok || data.success !== true || typeof data.url !== "string" ||
+        !URL.canParse(data.url) || new URL(data.url).protocol !== "https:") {
       throw new Error(
         data.error || "Image upload failed"
       );
@@ -84,6 +88,7 @@ async function uploadProductImage() {
    name: "",
    slug: "",
    brand: "",
+  isActive: true,
    category: "",
    description: "",
    price: "",
@@ -207,6 +212,7 @@ async function uploadProductImage() {
         slug: form.slug.trim(),
 
         brand: form.brand.trim(),
+  isActive: form.isActive,
         category: form.category,
 
         description:
@@ -359,12 +365,16 @@ return (
 
               <input
                 name="brand"
+                list="catalog-brands"
                 value={form.brand}
                 onChange={handleChange}
                 placeholder="ASUS"
                 className={inputClass}
                 required
               />
+              <datalist id="catalog-brands">
+                {taxonomy?.brands.map(({ key, name }) => <option key={key} value={key}>{name}</option>)}
+              </datalist>
             </label>
 
 
@@ -394,7 +404,16 @@ return (
 
             {/* Price */}
 
-            <label className="block">
+            <label className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={form.isActive}
+                  onChange={(event) => setForm((current) => ({ ...current, isActive: event.target.checked }))}
+                />
+                <Text>{"Available for sale"}</Text>
+              </label>
+
+              <label className="block">
 
               <span className="font-bold">
                 <Text>{"Price"}</Text>

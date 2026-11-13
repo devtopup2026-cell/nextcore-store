@@ -1,5 +1,8 @@
 "use client";
-import { Text } from "@/app/i18n/language";
+import { normalizeProductCategory, productCategoryLabel } from "@/lib/product-categories";
+import Link from "next/link";
+import { useCatalogTaxonomy } from "@/lib/use-catalog-taxonomy";
+import { Text, useLanguage } from "@/app/i18n/language";
 
 
 import { useEffect, useState } from "react";
@@ -9,6 +12,8 @@ import AdminNav from "@/app/components/admin/AdminNav";
 type Product = {
   id: number;
   name: string;
+  category: string;
+  brand: string;
   slug: string;
   description?: string | null;
   price: number;
@@ -19,6 +24,11 @@ type Product = {
 
 export default function AdminProductsPage() {
   const router = useRouter();
+  const taxonomy = useCatalogTaxonomy(true);
+  const { translate } = useLanguage();
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
+  const [status, setStatus] = useState("");
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -80,11 +90,20 @@ export default function AdminProductsPage() {
     }
   };
 
+  const brands = [...new Set(products.map((product) => product.brand).filter(Boolean))].sort();
+  const categories = [...new Set(products.map((product) => normalizeProductCategory(product.category)).filter(Boolean))].sort();
+  const visibleProducts = products.filter((product) =>
+    (!brand || product.brand === brand) &&
+    (!category || normalizeProductCategory(product.category) === category) &&
+    (!status || product.isActive === (status === "active"))
+  );
+
   return (
 <main className="min-h-screen bg-black text-white">
   <div className="mx-auto max-w-7xl px-6 py-16">
 
     <AdminNav />
+    <Link href="/admin/products/taxonomy" className="mb-5 inline-block text-red-400">จัดการหมวดหมู่และแบรนด์</Link>
 
       <div className="mb-10 flex items-center justify-between">
           <div>
@@ -120,6 +139,22 @@ export default function AdminProductsPage() {
             </button>
           </div>
 
+          <div className="mb-6 grid gap-3 sm:grid-cols-3">
+            <select aria-label={translate("Brand")} value={brand} onChange={(event) => setBrand(event.target.value)} className="rounded-lg bg-zinc-800 p-3">
+              <option value="">{translate("All brands")}</option>
+              {brands.map((item) => <option key={item} value={item}>{taxonomy?.brands.find(({ key }) => key.trim().toLowerCase() === item.trim().toLowerCase())?.name ?? item}</option>)}
+            </select>
+            <select aria-label={translate("Category")} value={category} onChange={(event) => setCategory(event.target.value)} className="rounded-lg bg-zinc-800 p-3">
+              <option value="">{translate("All categories")}</option>
+              {categories.map((item) => <option key={item} value={item}>{translate(taxonomy?.categories.find(({ key }) => key === item)?.name ?? productCategoryLabel(item))}</option>)}
+            </select>
+            <select aria-label={translate("Status")} value={status} onChange={(event) => setStatus(event.target.value)} className="rounded-lg bg-zinc-800 p-3">
+              <option value="">{translate("All statuses")}</option>
+              <option value="active">{translate("Available for sale")}</option>
+              <option value="paused">{translate("Sale paused")}</option>
+            </select>
+          </div>
+
           {loading && (
             <div className="py-12 text-center text-zinc-400">
               <Text>{"Loading products..."}</Text>
@@ -134,7 +169,7 @@ export default function AdminProductsPage() {
 
           {!loading &&
             !error &&
-            products.length === 0 && (
+            visibleProducts.length === 0 && (
               <div className="py-12 text-center text-zinc-500">
                 <Text>{"No products found."}</Text>
               </div>
@@ -142,9 +177,9 @@ export default function AdminProductsPage() {
 
           {!loading &&
             !error &&
-            products.length > 0 && (
+            visibleProducts.length > 0 && (
               <div className="space-y-4">
-                {products.map((product) => (
+                {visibleProducts.map((product) => (
                   <div
                     key={product.id}
                     className="flex items-center justify-between rounded-xl bg-zinc-800 p-5"
@@ -172,6 +207,7 @@ export default function AdminProductsPage() {
 
                 <p className="mt-1 text-sm text-zinc-400">
                   ID: {product.id}
+                  {" ? "}{product.brand}{" ? "}<Text>{productCategoryLabel(product.category)}</Text>
                 </p>
                 <p className={product.isActive ? "text-green-400" : "text-amber-400"}>
                   <Text>{product.isActive ? "Available for sale" : "Sale paused"}</Text>

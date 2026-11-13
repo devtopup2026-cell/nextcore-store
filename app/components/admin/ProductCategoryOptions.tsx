@@ -1,20 +1,23 @@
 "use client";
 
+import { useCatalogTaxonomy } from "@/lib/use-catalog-taxonomy";
 import { useLanguage } from "@/app/i18n/language";
 import { productCategories, productCategoryLabel } from "@/lib/product-categories";
 
 export default function ProductCategoryOptions({ current }: { current?: string }) {
   const { translate } = useLanguage();
 
+  const data = useCatalogTaxonomy(true);
+  const entries = data?.categories ?? productCategories.map((key) => ({ key, name: productCategoryLabel(key) }));
   return (
     <>
       <option value="">{translate("Select Category")}</option>
-      {current && !productCategories.includes(current) && (
+      {current && !entries.some(({ key }) => key === current) && (
         <option value={current}>{current}</option>
       )}
-      {productCategories.map((category) => (
-        <option key={category} value={category}>
-          {translate(productCategoryLabel(category))}
+      {entries.map(({ key, name }) => (
+        <option key={key} value={key}>
+          {translate(name)}
         </option>
       ))}
     </>

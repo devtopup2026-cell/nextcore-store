@@ -277,4 +277,7 @@ export const translations: Readonly<Record<string, Partial<Record<"en" | "th", s
   "SSD Storage": { th: "ไดรฟ์ SSD" },
   "HDD Storage": { th: "ฮาร์ดดิสก์" },
   "Power Supply": { th: "พาวเวอร์ซัพพลาย" },
+  "All brands": { th: "?????????" },
+  "All categories": { th: "???????????" },
+  "All statuses": { th: "????????" },
 };

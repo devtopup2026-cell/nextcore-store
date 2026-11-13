@@ -11,10 +11,12 @@ import ProductFilter from "../components/product/ProductFilter";
 import ProductGrid from "../components/product/ProductGrid";
 
 import { normalizeProductCategory } from "@/lib/product-categories";
+import { useCatalogTaxonomy } from "@/lib/use-catalog-taxonomy";
 import useProducts from "../../hooks/useProducts";
 
 function ProductsContent() {
   const router = useRouter();
+  const taxonomy = useCatalogTaxonomy();
   const searchParams = useSearchParams();
 
   const page = Math.max(
@@ -34,7 +36,7 @@ function ProductsContent() {
     sort,
     setSort,
 
-    filteredProducts,
+    filteredProducts, products, brandFilter, setBrandFilter,
   } = useProducts();
 
 useEffect(() => {
@@ -187,6 +189,14 @@ const handlePageChange = (newPage: number) => {
 
           </h1>
 
+          <label className="mb-3 flex items-center gap-3">
+            <Text>{"Brand"}</Text>
+            <select value={brandFilter} onChange={(event) => setBrandFilter(event.target.value)} className="rounded-lg bg-zinc-900 p-2">
+              <option value="">All</option>
+              {(taxonomy?.brands ?? [...new Set(products.map((product) => product.brand.trim()).filter(Boolean))].map((name) => ({ key: name, name }))).map(({ key, name }) =>
+                <option key={key} value={key.trim().toLowerCase()}>{name}</option>)}
+            </select>
+          </label>
           <ProductToolbar
             search={search}
             setSearch={handleSearchChange}
@@ -197,6 +207,7 @@ const handlePageChange = (newPage: number) => {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8">
 
             <ProductFilter
+              entries={taxonomy?.categories}
               category={category}
               setCategory={handleCategoryChange}
             />

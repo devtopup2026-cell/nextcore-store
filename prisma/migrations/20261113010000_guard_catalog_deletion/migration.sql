@@ -1,0 +1,4 @@
+BEGIN;
+ALTER TABLE "CatalogCategory" ADD COLUMN "retired" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "CatalogBrand" ADD COLUMN "retired" BOOLEAN NOT NULL DEFAULT false;
+COMMIT;

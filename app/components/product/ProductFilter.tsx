@@ -7,12 +7,14 @@ import { productCategories, productCategoryLabel } from "@/lib/product-categorie
 const categories = ["All", ...productCategories];
 
 type Props = {
+  entries?: { key: string; name: string }[];
   category: string;
   setCategory: (value: string) => void;
 };
 
 export default function ProductFilter({
   category,
+  entries,
   setCategory,
 }: Props) {
  return (
@@ -34,7 +36,7 @@ export default function ProductFilter({
         lg:pb-0
       "
     >
-      {categories.map((item) => (
+      {(entries ? [{ key: "All", name: "All" }, ...entries] : categories.map((key) => ({ key, name: productCategoryLabel(key) }))).map(({ key: item, name }) => (
         <button
           key={item}
           type="button"
@@ -56,7 +58,7 @@ export default function ProductFilter({
             }
           `}
         >
-          <Text>{productCategoryLabel(item)}</Text>
+          <Text>{name}</Text>
         </button>
       ))}
     </div>
