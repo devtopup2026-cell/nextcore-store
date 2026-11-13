@@ -1,3 +1,5 @@
+import { updateCatalogProduct } from "@/lib/product-catalog";
+import { productIdSchema } from "@/lib/product-input";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getAdminSession } from "@/lib/admin-auth";
@@ -59,9 +61,9 @@ export async function GET(
     }
 
     const { id } = await context.params;
-    const productId = Number(id);
+    const parsedId = productIdSchema.safeParse(id);
 
-    if (!Number.isInteger(productId)) {
+    if (!parsedId.success) {
       return NextResponse.json(
         {
           success: false,
@@ -72,6 +74,8 @@ export async function GET(
         }
       );
     }
+
+    const productId = parsedId.data;
 
     const product = await prisma.product.findUnique({
       where: {
@@ -129,9 +133,9 @@ export async function PATCH(
     }
 
     const { id } = await context.params;
-    const productId = Number(id);
+    const parsedId = productIdSchema.safeParse(id);
 
-    if (!Number.isInteger(productId)) {
+    if (!parsedId.success) {
       return NextResponse.json(
         {
           success: false,
@@ -143,214 +147,16 @@ export async function PATCH(
       );
     }
 
-    const body = await req.json();
+    const productId = parsedId.data;
 
-    if (body && Object.prototype.hasOwnProperty.call(body, "isActive")) {
-      if (typeof body.isActive !== "boolean") {
-        return NextResponse.json(
-          { success: false, error: "Invalid product status" },
-          { status: 400 }
-        );
-      }
-
-      const result = await prisma.product.updateMany({
-        where: { id: productId },
-        data: { isActive: body.isActive },
-      });
-
-      if (result.count === 0) {
-        return NextResponse.json(
-          { success: false, error: "Product not found" },
-          { status: 404 }
-        );
-      }
-
-      return NextResponse.json({ success: true, isActive: body.isActive });
-    }
-
-const {
-  name,
-  slug,
-  brand,
-  category,
-  description,
-  price,
-  compareAtPrice,
-  image,
-  stock,
-  featured,
-  isNew,
-} = body;
-
-    if (!name || !slug || !image) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Required product information is missing",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    const productPrice = Number(price);
-    const productStock = Number(stock);
-
-    const productCompareAtPrice =
-    compareAtPrice === null ||
-    compareAtPrice === undefined ||
-    compareAtPrice === ""
-    ? null
-    : Number(compareAtPrice);
-
-    if (!brand || !category) {
-  return NextResponse.json(
-    {
-      success: false,
-      error: "Brand and category are required",
-    },
-    {
-      status: 400,
-    }
-  );
-}
-
-if (
-  productCompareAtPrice !== null &&
-  (
-    !Number.isFinite(productCompareAtPrice) ||
-    productCompareAtPrice < 0
-  )
-) {
-  return NextResponse.json(
-    {
-      success: false,
-      error: "Invalid compare price",
-    },
-    {
-      status: 400,
-    }
-  );
-}
-
-    if (
-      !Number.isFinite(productPrice) ||
-      productPrice < 0
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Invalid price",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    if (
-      !Number.isInteger(productStock) ||
-      productStock < 0
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Invalid stock",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    const existingProduct =
-      await prisma.product.findUnique({
-        where: {
-          id: productId,
-        },
-      });
-
-    if (!existingProduct) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Product not found",
-        },
-        {
-          status: 404,
-        }
-      );
-    }
-
-    const slugOwner =
-      await prisma.product.findFirst({
-        where: {
-          slug,
-          NOT: {
-            id: productId,
-          },
-        },
-      });
-
-    if (slugOwner) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Slug already exists",
-        },
-        {
-          status: 409,
-        }
-      );
-    }
-
-    const product = await prisma.product.update({
-      where: {
-        id: productId,
-      },
-
-      data: {
-  name: name.trim(),
-  slug: slug.trim(),
-
-  brand: brand.trim(),
-  category: category.trim(),
-
-  description:
-    description?.trim() || null,
-
-  price: productPrice,
-  compareAtPrice: productCompareAtPrice,
-
-  image: image.trim(),
-  stock: productStock,
-
-  featured: Boolean(featured),
-  isNew: Boolean(isNew),
-},
-    });
-
-    return NextResponse.json({
-      success: true,
-      product,
-    });
-
+    const body: unknown = await req.json().catch(() => null);
+    const result = await updateCatalogProduct(prisma, productId, body);
+    return NextResponse.json(result.body, { status: result.status });
   } catch (error) {
     console.error("UPDATE PRODUCT ERROR:", error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Failed to update product",
-      },
-      {
-        status: 500,
-      }
-    );
+    return NextResponse.json({ success: false, error: "Failed to update product" }, { status: 500 });
   }
 }
-
 
 // ======================================================
 // DELETE - Delete Product
@@ -370,9 +176,9 @@ export async function DELETE(
     }
 
     const { id } = await context.params;
-    const productId = Number(id);
+    const parsedId = productIdSchema.safeParse(id);
 
-    if (!Number.isInteger(productId)) {
+    if (!parsedId.success) {
       return NextResponse.json(
         {
           success: false,
@@ -384,6 +190,7 @@ export async function DELETE(
       );
     }
 
+    const productId = parsedId.data;
     const existingProduct =
       await prisma.product.findUnique({
         where: {

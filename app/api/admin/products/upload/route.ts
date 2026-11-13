@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import type { UploadApiResponse } from "cloudinary";
 import cloudinary from "@/lib/cloudinary";
 import { getAdminSession } from "@/lib/admin-auth";
 
@@ -87,7 +88,7 @@ export async function POST(req: Request) {
     // จำกัด 5 MB
     const maxSize = 5 * 1024 * 1024;
 
-    if (file.size > maxSize) {
+    if (file.size === 0 || file.size > maxSize) {
       return NextResponse.json(
         {
           success: false,
@@ -102,19 +103,23 @@ export async function POST(req: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const result = await new Promise<any>(
+    const result = await new Promise<UploadApiResponse>(
       (resolve, reject) => {
         cloudinary.uploader
           .upload_stream(
             {
               folder: "nextcore/products",
               resource_type: "image",
+              allowed_formats: ["jpg", "jpeg", "png", "webp"],
             },
             (error, result) => {
               if (error) {
                 reject(error);
-              } else {
+              } else if (result?.secure_url && URL.canParse(result.secure_url) &&
+                         new URL(result.secure_url).protocol === "https:" && result.public_id) {
                 resolve(result);
+              } else {
+                reject(new Error("Cloudinary did not return a valid image"));
               }
             }
           )

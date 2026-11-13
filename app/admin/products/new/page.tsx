@@ -13,6 +13,7 @@ type ProductForm = {
   name: string;
   slug: string;
   brand: string;
+  isActive: boolean;
   category: string;
   description: string;
   price: string;
@@ -67,7 +68,8 @@ async function uploadProductImage() {
 
     const data = await res.json();
 
-    if (!res.ok || !data.success) {
+    if (!res.ok || data.success !== true || typeof data.url !== "string" ||
+        !URL.canParse(data.url) || new URL(data.url).protocol !== "https:") {
       throw new Error(
         data.error || "Image upload failed"
       );
@@ -84,6 +86,7 @@ async function uploadProductImage() {
    name: "",
    slug: "",
    brand: "",
+  isActive: true,
    category: "",
    description: "",
    price: "",
@@ -207,6 +210,7 @@ async function uploadProductImage() {
         slug: form.slug.trim(),
 
         brand: form.brand.trim(),
+  isActive: form.isActive,
         category: form.category,
 
         description:
@@ -394,7 +398,16 @@ return (
 
             {/* Price */}
 
-            <label className="block">
+            <label className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={form.isActive}
+                  onChange={(event) => setForm((current) => ({ ...current, isActive: event.target.checked }))}
+                />
+                <Text>{"Available for sale"}</Text>
+              </label>
+
+              <label className="block">
 
               <span className="font-bold">
                 <Text>{"Price"}</Text>
